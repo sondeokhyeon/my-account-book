@@ -18,3 +18,5 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
 .catch(err => {
   console.error('Unable to connect to the database:', err);
 });
+
+export default sequelize; 
