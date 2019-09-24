@@ -1,10 +1,10 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv')
 dotenv.config();
 
 module.exports = {
     development: {
-        username: process.env.USER_NAME,
-        password: process.env.PASSWORD,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         host:  process.env.DB_HOST,
         dialect: "mariadb",
@@ -16,19 +16,19 @@ module.exports = {
         operatorsAliases: "Op"
       },
       test: {
-        username: '',
-        password: '',
-        database: '',
-        host: '',
-        dialect: '',
-        operatorsAliases: ''
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        host:  process.env.DB_HOST,
+        dialect: "mariadb",
+        operatorsAliases: "Op"
       },
       production: {
-        username: '',
-        password: '',
-        database: '',
-        host: '',
-        dialect: '',
-        operatorsAliases: ''
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        host:  process.env.DB_HOST,
+        dialect: "mariadb",
+        operatorsAliases: "Op"
       }
 };

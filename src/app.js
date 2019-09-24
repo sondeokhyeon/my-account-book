@@ -3,12 +3,13 @@ import express from 'express';
 import models from '../models';
 
 // 동기화
-// models.sequelize.sync({force:false})
+// models.sequelize.sync({force:true})
 //     .then(() => {
 //         console.log('DB Connection')
 //     })
-//     .catch(() => {
+//     .catch(err => {
 //         console.log('DB Connection Error')
+//         console.log(err)
 //         process.exit();
 //     });  
 
