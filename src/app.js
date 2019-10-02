@@ -1,19 +1,21 @@
 import express from 'express';
+import path from 'path';
 //import db from "./cmm/db";
 import models, { sequelize } from '../models';
 
-//동기화
-// models.sequelize.sync({force:false})
-//     .then(() => {
-//         console.log('DB Connection')
-//     })
-//     .catch(err => {
-//         console.log('DB Connection Error')
-//         console.log(err)
-//         process.exit();
-//     });  
+const routes = require('./routes/index');
+const dbControl = require('./routes/db_control')
 
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'))
+
+app.use('/', routes);
+app.use('/db', dbControl);
+
+//app.get('/', require('.routes').index);
+
 app.get('/it', (req, res)=>{
     // insert sample
     models.ISMJ.create({mjnm:'수입'})
@@ -55,10 +57,6 @@ app.get('/st', (req, res)=>{
     .catch(err => {
         console.log(err)
     })
-})
-
-app.get('/', (req, res)=>{
-    res.send('hello express!')
 })
 
 export default app;

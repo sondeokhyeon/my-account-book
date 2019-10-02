@@ -6,7 +6,6 @@
   "author": "손덕현 <sondeokhyeon@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "D": "^1.0.0",
     "axios": "^0.19.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
@@ -19,7 +18,6 @@
     "dotenv": "^8.1.0",
     "dotenv-extended": "^2.4.0",
     "express": "^4.17.1",
-    "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
     "helmet": "^3.21.1",
     "mariadb": "^2.1.1",
@@ -29,13 +27,17 @@
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.2",
     "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "postcss-loader": "^3.0.0",
+    "pug": "^2.0.4",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
     "sass-loader": "^8.0.0",
     "sequelize": "^5.19.0",
     "sequelize-cli": "^5.5.1",
     "webpack": "^4.40.2"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node ./index.js --delay 2"
+    "dev": "nodemon -e js,pug --exec babel-node ./index.js --delay 2"
   }
 }
