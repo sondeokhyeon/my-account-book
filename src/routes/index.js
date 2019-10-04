@@ -2,7 +2,15 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  res.render('index', { name: 'Here123123123' });
+  let item;
+  if(req.user) {
+    item = req.user
+  } else {
+    item = {name: 'ㅎㅎㅎ 실패넹'}
+  }
+  console.log(req._passport)
+  console.log(item)
+  res.render('index', { item });
 });
 
-module.exports = router;
+export default router;
