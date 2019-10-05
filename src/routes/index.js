@@ -8,9 +8,8 @@ router.get('/', (req, res, next) => {
   } else {
     item = {name: 'ㅎㅎㅎ 실패넹'}
   }
-  console.log(req._passport)
   console.log(item)
-  res.render('index', { item });
+  res.render('index', { name:item.name });
 });
 
 export default router;
