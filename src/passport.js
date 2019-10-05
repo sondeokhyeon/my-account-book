@@ -1,7 +1,7 @@
 import passport from 'passport';
 import {db} from './middleware'
 import bcrypt from 'bcrypt';
-var LocalStrategy = require('passport-local').Strategy;
+import { Strategy as LocalStrategy } from 'passport-local'
 
 passport.use(new LocalStrategy({
     usernameField:'id',
@@ -35,5 +35,9 @@ passport.serializeUser( (user, done) =>{
 });
 
 passport.deserializeUser ( (user, done) => {
-    return done(null, user)
+    const info = {
+        id : user.id,
+        name : user.name
+    }
+    return done(null, info)
 });

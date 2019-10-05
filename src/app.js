@@ -10,7 +10,11 @@ import mainRouter from './routes/index';
 import dbRouter from './routes/db_control';
 import authRouter from './routes/auth'
 import flash from 'connect-flash'
+
 const app = express();
+
+app.use('/upload', express.static('uploads'))
+app.use('/static', express.static('static'))
 
 app.use(mogran('dev'));
 app.use(helmet())
@@ -23,13 +27,19 @@ app.use(bodyparser.json());
 app.use(session({
     secret:process.env.HASHKEY,
     resave:false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60,
+        httpOnly:true,
+        secure:true
+    }
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 import './passport'
+
 app.use('/', mainRouter);
 app.use('/db', dbRouter);
 app.use('/auth', authRouter);
