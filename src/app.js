@@ -9,6 +9,7 @@ import passport from 'passport';
 import mainRouter from './routes/index';
 import dbRouter from './routes/db_control';
 import authRouter from './routes/auth'
+import { authenticateJwt } from './passport'
 import flash from 'connect-flash'
 
 const app = express();
@@ -38,9 +39,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-import './passport'
+//import './passport'
+app.use(authenticateJwt);
 
-app.use('/', mainRouter);
+app.use('/', mainRouter); 
 app.use('/db', dbRouter);
 app.use('/auth', authRouter);
 

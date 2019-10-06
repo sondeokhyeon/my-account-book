@@ -18,15 +18,18 @@ export const post_signup = (req, res) => {
 
 export const get_login = (req, res) => {
     let errMsg = req.flash('error');
-    res.render('auth/login', {msg: errMsg})
+    console.log(errMsg)
+    res.render('auth/login')
 }
 
-export const post_login = passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/auth/login',
-        badRequestMessage: '아이디와 비빌번호를 입력하세요',
-        failureFlash:true
+export const post_login =  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    badRequestMessage: '아이디와 비빌번호를 입력하세요',
+    failureFlash : true
 })
+    
+
 
 export const logout = (req, res) => {
     req.logout();
