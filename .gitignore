@@ -6,3 +6,4 @@ todo.js
 yarn.lock
 yarn-error.log
 .vscode
+sessions/

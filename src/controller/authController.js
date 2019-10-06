@@ -19,7 +19,7 @@ export const post_signup = (req, res) => {
 export const get_login = (req, res) => {
     let errMsg = req.flash('error');
     console.log(errMsg)
-    res.render('auth/login')
+    res.render('auth/login', {msg: errMsg})
 }
 
 export const post_login =  passport.authenticate('local', {
@@ -29,8 +29,6 @@ export const post_login =  passport.authenticate('local', {
     failureFlash : true
 })
     
-
-
 export const logout = (req, res) => {
     req.logout();
     res.redirect('/')
