@@ -7,12 +7,12 @@ import session from 'express-session';
 import cookieparser from 'cookie-parser';
 import passport from 'passport';
 import sessionFileStore from 'session-file-store'
-//const FileStore = require('session-file-store')(session);
-//import {FileStore} from 'session-file-store','session'
 import flash from 'connect-flash'
-import mainRouter from './routes/index';
-import dbRouter from './routes/db_control';
-import authRouter from './routes/auth'
+import mainRouter from './routes/MainRouter';
+import dbRouter from './routes/DBRouter';
+import adminRouter from './routes/AdminRouter';
+import reportRouter from './routes/ReportRouter';
+
 //import { authenticateJwt, jwtz } from './passport'
 
 const app = express();
@@ -41,7 +41,11 @@ app.use(session({
         secure : false
     },
    store: new FileStore(
-       {secret: process.env.HASHKEY}
+       {
+        secret: process.env.HASHKEY,
+        retries : 3,
+        ttl: 36000,
+       }
    ),
 }));
 
@@ -54,6 +58,7 @@ import './passport'
 
 app.use('/', mainRouter); 
 app.use('/db', dbRouter);
-app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
+app.use('/report', reportRouter);
 
 export default app;
