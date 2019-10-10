@@ -1,0 +1,13 @@
+doctype html
+html
+    head
+        title hello
+        //- title #{pageTitle} | #{siteName}
+        //- link(rel="stylesheet" href="/static/styles.css")
+    body
+        include ../partials/header
+        include ../../admin/header
+        main
+            block content
+        include ../partials/footer
+        //script(src="/static/main.js")

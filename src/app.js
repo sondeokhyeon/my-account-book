@@ -18,8 +18,8 @@ import reportRouter from './routes/ReportRouter';
 const app = express();
 const FileStore = sessionFileStore(session)
 
-app.use('/upload', express.static('uploads'))
-app.use('/static', express.static('static'))
+app.use('/upload', express.static(__dirname + '/uploads'))
+app.use('/static', express.static(__dirname + '/static'))
 
 app.use(mogran('dev'));
 app.use(helmet())

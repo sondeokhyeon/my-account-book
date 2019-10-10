@@ -1,9 +1,19 @@
 
 import express from 'express';
-const adrouter = express.Router();
+import { db } from '../middleware'
 
-adrouter.get('/', (req, res) => {
+const ABrouter = express.Router();
+
+ABrouter.get('/', (req, res) => {
     res.render('admin/main')
 })
 
-export default adrouter;
+ABrouter.get('/account', (req, res) => {
+    res.render('admin/account')
+})
+
+ABrouter.get('/card', (req, res) => {
+    res.render('admin/card')
+})
+
+export default ABrouter;
