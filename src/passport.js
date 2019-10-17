@@ -11,7 +11,7 @@ passport.use(new LocalStrategy({
     passReqToCallback : true
     },
     async function(req, id, pw, done) {
-        db.user.findOne({where:{name:id}}).then(user => {
+        db.user.findOne({where:{username:id}}).then(user => {
             if(!user) { 
                 return done(null, false, { message: '없는 아이디입니다 ㅎㅎ' }) 
             }

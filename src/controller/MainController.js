@@ -34,7 +34,7 @@ export const get_login = (req, res) => {
 
 export const post_login =  passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/auth/login',
+    failureRedirect: '/login',
     badRequestMessage: '아이디와 비빌번호를 입력하세요',
     failureFlash : true
 })
