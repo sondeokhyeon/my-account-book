@@ -8,10 +8,10 @@ import cookieparser from 'cookie-parser';
 import passport from 'passport';
 import sessionFileStore from 'session-file-store'
 import flash from 'connect-flash'
-import mainRouter from './routes/MainRouter';
+import mainRouter from './routes/Main/Router';
 import dbRouter from './routes/DBRouter';
-import adminRouter from './routes/AdminRouter';
-import reportRouter from './routes/ReportRouter';
+import adminRouter from './routes/Admin/Router';
+import reportRouter from './routes/Report/Router';
 
 //import { authenticateJwt, jwtz } from './passport'
 

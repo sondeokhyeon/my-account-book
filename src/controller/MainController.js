@@ -1,4 +1,6 @@
 import passport from 'passport';
+import bcrypt from 'bcrypt';
+
 //import {db} from "../middleware"
 
 export const get_index = (req, res) => {
@@ -17,12 +19,15 @@ export const get_signup = (req, res) => {
 }
 
 export const post_signup = (req, res) => {
-    // bcrypt.hash(pw, 10, (err, hash) => {
-    //     if(err) {
-    //         console.log(err)
-    //     }
-    //     result = hash;
-    // })
+    console.log('진입!')
+    let pw = '1234'
+    console.log(pw)
+    bcrypt.hash(pw, 10, (err, hash) => {
+        if(err) {
+            console.log(err)
+        }
+        console.log('hash : ', hash )
+    })
     res.render('main/login')
 }
 
