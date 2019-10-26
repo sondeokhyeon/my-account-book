@@ -1,12 +1,13 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const adminAccount = sequelize.define('adminAccount', {
+  const DT_AD_CARD = sequelize.define('DT_AD_CARD', {
     majorName: DataTypes.STRING,
     minorName: DataTypes.STRING,
+    username: DataTypes.STRING,
     isUse: DataTypes.BOOLEAN
   }, {});
-  adminAccount.associate = function(models) {
+  DT_AD_CARD.associate = function(models) {
     // associations can be defined here
   };
-  return adminAccount;
+  return DT_AD_CARD;
 };

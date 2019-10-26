@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   majorcategory.associate = function(models) {
-    majorcategory.hasOne(models.minorcategory, {foreignKey:'categoryName', as :'categorysort'})
+    // majorcategory.hasOne(models.minorcategory, {foreignKey:'categoryName', as :'categorysort'})
   };
   return majorcategory;
 };

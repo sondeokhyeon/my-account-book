@@ -1,9 +1,14 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const ISMN = sequelize.define('ISMN', {
-    majorName: DataTypes.STRING,
-    minorName: DataTypes.STRING,
-    isUse: DataTypes.BOOLEAN,
+  const STP_ISMJ = sequelize.define('STP_ISMJ', {
+    ISMJ_NO: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    ISMJ_MJ_NM: DataTypes.STRING,
+    ISMJ_MN_NM: DataTypes.STRING,
     createdAt: {
       type: DataTypes.DATE,
       get() {
@@ -17,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       }
      }
   }, {});
-  ISMN.associate = function(models) {
-    // associations can be defined here
+  STP_ISMJ.associate = function(models) {
+    STP_ISMJ.hasMany(models.STP_ISMN, {foreignKey:'ISMJ_NO'})
   };
-  return ISMN;
+  return STP_ISMJ;
 };
