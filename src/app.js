@@ -56,6 +56,7 @@ import './passport'
 //app.use(authenticateJwt);
 //app.use(jwtz);
 
+// 
 app.use('/', mainRouter); 
 app.use('/db', dbRouter);
 app.use('/admin', adminRouter);

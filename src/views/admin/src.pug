@@ -1,0 +1,99 @@
+extends ../cmm/layout/admin 
+block content
+    style(type="text/css").
+        .span__btn {
+            border : 1px solid #b9b9b9;
+            margin : 10px; 
+        }
+        .modals {
+            width: max-content;
+            display:none;
+        }
+        .modals .container .header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    h1 account
+
+    div
+        div.bodys
+            div
+                each src, index in srcs 
+                    //- - console.log(index, src)
+                    div
+                        span= src.SRC_NAME
+                        span= src.SRC_BANK
+                        if src.SRC_CATEGORY === 1
+                            span= '계좌'
+                        else 
+                            span= "카드"
+                        span= src.SRC_MONEY
+                        span= src['SDT_USER.USER_NM']
+                        if src.IS_CREDIT === 0
+                            span= '체크카드'
+                        else 
+                            span= '신용카드'
+                        span= src.COMMENT
+
+        button.src__add(type=button onclick='modalOpen()') 추가하기
+        div.modals#modals
+            div.container
+                    div.header
+                        h2 추가하기
+                        h3#closeBtn(onclick='modalClose()') X
+                    div.body
+                        form(action="./src-add", method="post" id="src-form")
+                            label 카드/계좌 이름
+                                input(type="text", required name="name")
+                            br
+                            label 은행 이름
+                                input(type="text", required name="bank")
+                            br
+                            label 초기 금액
+                                input(type="text", required name="money")
+                            br
+                            label 카드/계좌
+                                input(type="radio", required name="category" value="1") 
+                                | 계좌
+                                input(type="radio", required name="category" value="0") 
+                                | 카드
+                            br
+                            label 신용카드/체크카드
+                                input(type="radio", required name="is_credit" value="0") 
+                                | 체크카드
+                                input(type="radio", required name="is_credit" value="1")
+                                | 신용카드
+                            br
+                            label 누가쓰니?
+                                select(name="user_no" required)
+                                    option(hidden) 선택하시오
+                                    each user in users
+                                        option(value=user.USER_NO)= user.USER_NM
+                            br
+                            label 메모
+                                input(type="text", name="comment")
+                            br
+                        div.footer
+                            span.span__btn.submit__btn(onclick='regi_submit()') 등록하기
+                            span.span__btn.cancel__btn(onclick='regi_cancle()') 취소하기
+    script.
+        function modalOpen() {
+            document.getElementById('modals').style.display = 'flex'
+        }
+        function modalClose() {
+            document.getElementById('modals').style.display = 'none'
+        }
+        function regi_cancle() {
+            document.getElementById('src-form').reset();
+            document.getElementById('modals').style.display = 'none'
+        }
+        function regi_submit() {
+            if(confirm('등록할꺼에유?') === true) {
+                document.getElementById('src-form').submit();
+                return;
+            } 
+            return false;
+        }
+        
+                

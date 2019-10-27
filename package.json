@@ -39,7 +39,7 @@
     "webpack": "^4.41.2"
   },
   "scripts": {
-    "dev": "nodemon -e js,pug --exec babel-node ./index.js --delay 2",
+    "dev": "nodemon --ignore **/views/** --exec babel-node ./index.js --delay 2 ",
     "webpack-dev": "cross-env WEBPACK_NEV='development' webpack -w"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ import models, { sequelize } from '../../database/models';
 const sync = async() =>  {
     //throw new Error('error 발생함 ㅋㅋ');
     //동기화
-    return  models.sequelize.sync({force:false})
+    return  models.sequelize.sync({force:true})
         .then(() => {
             console.log('DB Connection')
         })

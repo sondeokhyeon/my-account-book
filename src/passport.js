@@ -11,11 +11,11 @@ passport.use(new LocalStrategy({
     passReqToCallback : true
     },
     async function(req, id, pw, done) {
-        db.user.findOne({where:{username:id}}).then(user => {
+        db.SDT_USER.findOne({where:{USER_NM:id}}).then(user => {
             if(!user) { 
                 return done(null, false, { message: '없는 아이디입니다 ㅎㅎ' }) 
             }
-            bcrypt.compare(pw, user.dataValues.password, (err, res) => {
+            bcrypt.compare(pw, user.dataValues.USER_PW, (err, res) => {
                 if(err) {
                     console.log(err)
                     return done(null, false, { message: '에러 발생! 개발자에게 문의하세요!' })
