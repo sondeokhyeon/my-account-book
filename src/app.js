@@ -10,7 +10,8 @@ import sessionFileStore from 'session-file-store'
 import flash from 'connect-flash'
 import mainRouter from './routes/Main/Router';
 import dbRouter from './routes/DBRouter';
-import adminRouter from './routes/Admin/Router';
+import AdminRenderRouter from './routes/Admin/Render';
+import AdminFunctionRouter from './routes/Admin/Function';
 import reportRouter from './routes/Report/Router';
 
 //import { authenticateJwt, jwtz } from './passport'
@@ -20,7 +21,9 @@ const FileStore = sessionFileStore(session)
 
 app.use('/upload', express.static(__dirname + '/uploads'))
 app.use('/static', express.static(__dirname + '/static'))
-
+app.use('/asserts', [
+    express.static(path.resolve('./node_modules/handlebars/dist/'))
+]);
 app.use(mogran('dev'));
 app.use(helmet())
 app.set('view engine', 'pug');
@@ -49,6 +52,7 @@ app.use(session({
    ),
 }));
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -57,9 +61,10 @@ import './passport'
 //app.use(jwtz);
 
 // 
-app.use('/', mainRouter); 
-app.use('/db', dbRouter);
-app.use('/admin', adminRouter);
-app.use('/report', reportRouter);
+app.use('/',        mainRouter); 
+app.use('/db',      dbRouter);
+app.use('/admin',   AdminRenderRouter);
+app.use('/af/',     AdminFunctionRouter);
+app.use('/report',  reportRouter);
 
 export default app;

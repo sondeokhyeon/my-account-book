@@ -21,6 +21,7 @@
     "dotenv-extended": "^2.4.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "handlebars": "^4.4.5",
     "helmet": "^3.21.1",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.1.1",
@@ -39,7 +40,7 @@
     "webpack": "^4.41.2"
   },
   "scripts": {
-    "dev": "nodemon --ignore **/views/** --exec babel-node ./index.js --delay 2 ",
+    "dev": "nodemon --exec babel-node ./index.js --delay 2 --ignore 'sessions/*.json' --ignore 'src/asserts/*' --ignore 'src/static/*' --ignore '**.pug'",
     "webpack-dev": "cross-env WEBPACK_NEV='development' webpack -w"
   },
   "devDependencies": {

@@ -1,3 +1,1 @@
-const webpack = 'webpack';
-
-console.log(`hello ${webpack}`)
+import './admin'

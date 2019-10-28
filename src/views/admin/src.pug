@@ -16,7 +16,7 @@ block content
         }
     h1 account
 
-    div
+    div#source-container
         div.bodys
             div
                 each src, index in srcs 
@@ -35,17 +35,19 @@ block content
                         else 
                             span= '신용카드'
                         span= src.COMMENT
+                        button(type="button") 수정하기 
+                        button(type="button") 삭제하기 
 
-        button.src__add(type=button onclick='modalOpen()') 추가하기
+        button.src__add(type=button id="modal-btn") 추가하기
         div.modals#modals
             div.container
                     div.header
                         h2 추가하기
-                        h3#closeBtn(onclick='modalClose()') X
+                        h3(id="modal-close") X
                     div.body
                         form(action="./src-add", method="post" id="src-form")
                             label 카드/계좌 이름
-                                input(type="text", required name="name")
+                                input(type="text", required name="name" value="")
                             br
                             label 은행 이름
                                 input(type="text", required name="bank")
@@ -66,34 +68,12 @@ block content
                                 | 신용카드
                             br
                             label 누가쓰니?
-                                select(name="user_no" required)
+                                select(name="user_no" required id="user_no")
                                     option(hidden) 선택하시오
-                                    each user in users
-                                        option(value=user.USER_NO)= user.USER_NM
                             br
                             label 메모
                                 input(type="text", name="comment")
                             br
                         div.footer
-                            span.span__btn.submit__btn(onclick='regi_submit()') 등록하기
-                            span.span__btn.cancel__btn(onclick='regi_cancle()') 취소하기
-    script.
-        function modalOpen() {
-            document.getElementById('modals').style.display = 'flex'
-        }
-        function modalClose() {
-            document.getElementById('modals').style.display = 'none'
-        }
-        function regi_cancle() {
-            document.getElementById('src-form').reset();
-            document.getElementById('modals').style.display = 'none'
-        }
-        function regi_submit() {
-            if(confirm('등록할꺼에유?') === true) {
-                document.getElementById('src-form').submit();
-                return;
-            } 
-            return false;
-        }
-        
-                
+                            span.span__btn.submit__btn(id='regi-submit') 등록하기
+                            span.span__btn.cancel__btn(id='regi-cancle') 취소하기

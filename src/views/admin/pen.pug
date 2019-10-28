@@ -1,3 +1,18 @@
 extends ../cmm/layout/admin 
 block content
     h1 account
+    div.pen__btn
+        button(type="button" id="major") 대분류 관리
+        button(type="button" id="minor") 소분류 관리
+        span 버튼을 누르시오 
+    div.pen__body
+        div.header
+            
+        div(class='body' id='body')
+    script(id='temp' type="text-x/handlebars-template").
+        <div>
+            <div>
+                {{item}}
+            </div>
+        <div>
+
