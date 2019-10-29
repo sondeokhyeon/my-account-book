@@ -1,18 +1,62 @@
 extends ../cmm/layout/admin 
 block content
     h1 account
-    div.pen__btn
-        button(type="button" id="major") 대분류 관리
-        button(type="button" id="minor") 소분류 관리
-        span 버튼을 누르시오 
-    div.pen__body
-        div.header
-            
-        div(class='body' id='body')
-    script(id='temp' type="text-x/handlebars-template").
-        <div>
-            <div>
-                {{item}}
+    div.pen__container
+        div.pen__btn
+            button(type="button" id="major") 대분류 관리
+            button(type="button" id="minor") 소분류 관리
+            span 버튼을 누르시오 
+        div.pen__body
+            div.header 
+            div(class='section' id='section')
+ 
+                        
+    script(id='pen-major__container' type="text/x-handlebars-template").
+        <div class="pen-major__container">
+            <div class="header">
+                <button type="button" id="income_load">수입</button>
+                <button type="button" id="spending_load">지출</button>
+                <button type="button" id="transfer_load">이체</button>
+            </div>
+            <div class="body" id="pen-major__body">
             </div>
         <div>
+
+    script(id="pen-major__body-table" type="text/x-handlebars-template").
+        <h2>{{title}}</h2>
+        <button id={{add_btn}}>등록하기</button>
+        <table>
+            <th>이름</th><th>입력일</th><th>수정하기</th>
+            {{#each DB}}
+            <tr>
+                <td>{{ISMJ_MN_NM}}</td>
+                <td>{{createdAt}}</td>
+                <td><button>수정하기</button></td>
+            </tr>
+            {{/each}}
+        </table> 
+        <div id="pen-major__modal-container" class="pen-major__modal-container">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>등록하기</h3>
+                    <h4 id="modal-close">X</h4>
+                </div>
+                <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
+                    <div class="modal-body">
+                        <label> 대분류 이름
+                            <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
+                        </label>
+                        <br>
+                        <label> 중분류 이름
+                            <input type="text" name="minor_name" required>
+                        </label>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="pen-major__add-btn">등록하기</button>
+                        <button type="reset">취소하기</button>
+                    </div>
+                </form>
+            </div>         
+        </div>
 

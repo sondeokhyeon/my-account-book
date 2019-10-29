@@ -1,4 +1,5 @@
 import handlebars from "handlebars"
+import axios from "axios";
 
 const {pathname} = location
 
@@ -52,12 +53,73 @@ if(pathname.split('/')[1] === 'admin') {
     } 
     if(pathname.split('/')[2] === 'pen') {
 
-        function penMajorManagerInit() {
-            const src = document.getElementById("temp").innerHTML;
-            const test = {item : 'test!'}
-            const template = handlebars.compile(src)
-            document.getElementById('body').innerHTML = template(test)
+        const insertModalOpen = () => {
+            document.getElementById('pen-major__modal-container').style.display = 'flex'
+            document.getElementById('modal-close').addEventListener('click', () => {
+                document.getElementById('pen-major__modal-container').style.display = 'none';
+            })
+            document.getElementById('pen-major__add-btn').addEventListener('click', () => {
+                if(confirm('등록하시렵니까?') === true) {
+                    document.getElementById('pen-major__add-form').submit();
+                    return;
+                } 
+                return false;
+            })
         }
+
+        const penMajorLoad = (viewData, section, item) => {
+            document.getElementById(section + '_load').addEventListener('click', async ()=> {
+                const src = document.getElementById("pen-major__body-table").innerHTML;
+                let items = viewData;
+                let dbData = '';
+                const { origin } = location
+
+                await axios.get(origin + '/af/pen-major-select', {
+                    params : {
+                        majorName : item
+                    }
+                })
+                .then(result => {
+                   dbData = result.data;
+                })
+                items.DB = dbData;
+                const template = handlebars.compile(src);
+                document.getElementById('pen-major__body').innerHTML = template(items)
+                document.getElementById(section + '-add').addEventListener('click', insertModalOpen)
+               })
+        }
+
+        const incomeLoad = () => {
+            let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
+            let section = 'income'
+            let item = '수입'
+            penMajorLoad(viewData, section, item);
+        }
+        
+        const spendingLoad = () => {
+            let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
+            let section = 'spending'
+            let item = '지출'
+            penMajorLoad(viewData, section, item);
+        }
+        
+        const transferLoad = () => {
+            let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
+            let section = 'transfer'
+            let item = '이체'
+            penMajorLoad(viewData, section, item);
+        }
+
+        function penMajorManagerInit() {
+            const src = document.getElementById("pen-major__container").innerHTML;
+            const test = ''
+            const template = handlebars.compile(src)
+            document.getElementById('section').innerHTML = template(test)
+            incomeLoad()
+            spendingLoad()
+            transferLoad()
+        }
+
         function penMinorManagerInit() {
             console.log('hello2')
         }

@@ -42,4 +42,33 @@ adminFunctionRouter.post('/src-add',  async (req, res) => {
    res.redirect('/admin/src')
 })
 
+adminFunctionRouter.get('/pen-major-select', async(req, res) => {
+    const { query : {majorName} } = req;
+    let data = '';
+    try {
+        data = await db.STP_ISMJ.findAll({
+            raw : true,
+            where : {
+                ISMJ_MJ_NM : majorName
+            }
+        })
+    } catch(e) {
+        console.log(e)
+    }
+    res.json(data)
+}) 
+
+adminFunctionRouter.post('/pen-major-add', async(req, res) => {
+  const { body : {major_name, minor_name}} = req  
+  try {
+      await db.STP_ISMJ.create({
+          ISMJ_MJ_NM: major_name,
+          ISMJ_MN_NM: minor_name
+      })
+  } catch(e) {
+    console.log(e)
+  }
+  res.redirect('/admin/pen')
+})
+
 export default adminFunctionRouter;
