@@ -30,13 +30,6 @@ adminRouter.get('/src',  async (req, res) => {
 })
 
 adminRouter.get('/pen', (req, res) => {
-    db.STP_ISMN.findAll()
-    .then(result => {
-        console.log(result)
-    }) 
-    .catch( e => {
-        console.log(e)
-    })
     res.render('admin/pen')
 })
 

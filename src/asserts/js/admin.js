@@ -67,9 +67,56 @@ if(pathname.split('/')[1] === 'admin') {
             })
         }
 
-        const penMajorLoad = (viewData, section, item) => {
+        const spendAddModalOpen = () => {
+            document.getElementById('speding-add__modal-container').style.display = 'flex';
+            document.getElementById('speding-modal-close').addEventListener('click', () => {
+                document.getElementById('speding-add__modal-container').style.display = 'none';
+            })
+        }
+
+        const spendRender = () => {
+            Array.from(document.getElementsByClassName('spend-select')).forEach( (item) => {
+                const thisItem = item;
+                thisItem.addEventListener('click', async () => {
+                    Array.from(document.getElementsByClassName('active')).forEach( (item) => {
+                        item.classList.remove('active')
+                    })
+                    if(!thisItem.classList.contains('active')) {
+                        thisItem.classList.add('active')
+                        const { origin } = location
+                        let minor_data, sub_minor_data;
+                        await axios.get(origin + '/af/pen-spend-mnsub-get', {
+                            params: {
+                                minor_name : thisItem.textContent
+                            }
+                        }).then(result => {
+                            const {data: {minorData, subMinorData}} = result
+                            minor_data = minorData; 
+                            sub_minor_data = subMinorData;
+                        })
+                        
+                        const infoTemplate = handlebars.compile(document.getElementById('spending__header-info-contents').innerHTML);
+                        document.getElementById('speding-table__header-info').innerHTML = infoTemplate(minor_data);
+                        
+                        let viewData = {MAJOR_NAME:"지출", MINOR_NAME:thisItem.textContent, add_btn:"speding_sm_add"}
+                        viewData.DB = sub_minor_data
+                        const bodyTemplate = handlebars.compile(document.getElementById('spending__body-contents').innerHTML);
+                        document.getElementById('speding-table__body').innerHTML = bodyTemplate(viewData);
+                        document.getElementById('speding_sm_add').addEventListener('click',spendAddModalOpen)
+                    } 
+                })
+            })
+        }
+
+        const incomeTransferLoad = (viewData, section, item) => {
             document.getElementById(section + '_load').addEventListener('click', async ()=> {
-                const src = document.getElementById("pen-major__body-table").innerHTML;
+                let tableBody = '';
+                if(section === 'spending') {
+                    tableBody = 'pen-spending__body-table'
+                } else {
+                    tableBody = 'pen-major__body-table'
+                }
+                const src = document.getElementById(tableBody).innerHTML;
                 let items = viewData;
                 let dbData = '';
                 const { origin } = location
@@ -85,50 +132,38 @@ if(pathname.split('/')[1] === 'admin') {
                 items.DB = dbData;
                 const template = handlebars.compile(src);
                 document.getElementById('pen-major__body').innerHTML = template(items)
-                document.getElementById(section + '-add').addEventListener('click', insertModalOpen)
-               })
+                document.getElementById(section + '-add').addEventListener('click', insertModalOpen) 
+                if(section === 'spending') {
+                    spendRender();
+                }
+            })
         }
 
         const incomeLoad = () => {
             let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
             let section = 'income'
             let item = '수입'
-            penMajorLoad(viewData, section, item);
+            incomeTransferLoad(viewData, section, item);
         }
         
         const spendingLoad = () => {
             let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
             let section = 'spending'
             let item = '지출'
-            penMajorLoad(viewData, section, item);
+            incomeTransferLoad(viewData, section, item);
         }
         
         const transferLoad = () => {
             let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
             let section = 'transfer'
             let item = '이체'
-            penMajorLoad(viewData, section, item);
-        }
-
-        function penMajorManagerInit() {
-            const src = document.getElementById("pen-major__container").innerHTML;
-            const test = ''
-            const template = handlebars.compile(src)
-            document.getElementById('section').innerHTML = template(test)
-            incomeLoad()
-            spendingLoad()
-            transferLoad()
-        }
-
-        function penMinorManagerInit() {
-            console.log('hello2')
+            incomeTransferLoad(viewData, section, item);
         }
 
         function init() {
-            document.getElementById('major').addEventListener('click', penMajorManagerInit)
-            document.getElementById('minor').addEventListener('click', () => {
-                console.log('123')
-            })
+            incomeLoad()
+            spendingLoad()
+            transferLoad()
         }
         init();
     } 

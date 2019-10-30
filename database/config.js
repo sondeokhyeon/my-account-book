@@ -13,7 +13,8 @@ module.exports = {
           useUTC: false,
           timezone:process.env.DB_TIMEZONE
         },
-        operatorsAliases: "Op"
+        operatorsAliases: "Op",
+        timezone: "+09:00"
       },
       test: {
         username: process.env.DB_USERNAME,

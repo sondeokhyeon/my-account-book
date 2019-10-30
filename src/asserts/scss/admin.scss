@@ -34,3 +34,38 @@
         }
     }
 }
+
+main {
+    width: 100vw;
+    height: 100vh;
+    background-color: #f3f3f3;
+    .pen_major_container { 
+        width: 1300px;
+        background-color: white;
+        margin : 0 auto;
+    }
+}
+
+.pen_major_container {
+    .body {
+        table {
+            width: 100%;
+            tbody {
+                width: 100%;
+                tr {
+                    td {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        .active {
+            background-color:slateblue;
+            color:white;
+        }
+    }
+
+    .speding-table__header {
+        text-align: right;
+    }
+}

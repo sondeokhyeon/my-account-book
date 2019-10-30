@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
      }
   }, {});
   STP_ISMN.associate = function(models) {
-    STP_ISMN.belongsTo(models.STP_ISMJ, {foreignKey: 'ISMJ_NO'})
+
   };
   return STP_ISMN;
 };

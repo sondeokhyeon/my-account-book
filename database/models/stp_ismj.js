@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    ISMJ_MJ_NM: DataTypes.STRING,
-    ISMJ_MN_NM: DataTypes.STRING,
+    ISMJ_MJ_NM: DataTypes.STRING, // major
+    ISMJ_MN_NM: DataTypes.STRING, // minor
+    ISMJ_MS_NM: DataTypes.STRING, // minorsub
     createdAt: {
       type: DataTypes.DATE,
       get() {
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
      }
   }, {});
   STP_ISMJ.associate = function(models) {
-    STP_ISMJ.hasMany(models.STP_ISMN, {foreignKey:'ISMJ_NO'})
+
   };
   return STP_ISMJ;
 };
