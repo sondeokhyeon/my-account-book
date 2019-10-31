@@ -67,47 +67,6 @@ if(pathname.split('/')[1] === 'admin') {
             })
         }
 
-        const spendAddModalOpen = () => {
-            document.getElementById('speding-add__modal-container').style.display = 'flex';
-            document.getElementById('speding-modal-close').addEventListener('click', () => {
-                document.getElementById('speding-add__modal-container').style.display = 'none';
-            })
-        }
-
-        const spendRender = () => {
-            Array.from(document.getElementsByClassName('spend-select')).forEach( (item) => {
-                const thisItem = item;
-                thisItem.addEventListener('click', async () => {
-                    Array.from(document.getElementsByClassName('active')).forEach( (item) => {
-                        item.classList.remove('active')
-                    })
-                    if(!thisItem.classList.contains('active')) {
-                        thisItem.classList.add('active')
-                        const { origin } = location
-                        let minor_data, sub_minor_data;
-                        await axios.get(origin + '/af/pen-spend-mnsub-get', {
-                            params: {
-                                minor_name : thisItem.textContent
-                            }
-                        }).then(result => {
-                            const {data: {minorData, subMinorData}} = result
-                            minor_data = minorData; 
-                            sub_minor_data = subMinorData;
-                        })
-                        
-                        const infoTemplate = handlebars.compile(document.getElementById('spending__header-info-contents').innerHTML);
-                        document.getElementById('speding-table__header-info').innerHTML = infoTemplate(minor_data);
-                        
-                        let viewData = {MAJOR_NAME:"지출", MINOR_NAME:thisItem.textContent, add_btn:"speding_sm_add"}
-                        viewData.DB = sub_minor_data
-                        const bodyTemplate = handlebars.compile(document.getElementById('spending__body-contents').innerHTML);
-                        document.getElementById('speding-table__body').innerHTML = bodyTemplate(viewData);
-                        document.getElementById('speding_sm_add').addEventListener('click',spendAddModalOpen)
-                    } 
-                })
-            })
-        }
-
         const incomeTransferLoad = (viewData, section, item) => {
             document.getElementById(section + '_load').addEventListener('click', async ()=> {
                 let tableBody = '';

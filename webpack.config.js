@@ -22,7 +22,7 @@ const config = {
     rules: [{
       test: /\.js$/,
       use: [{
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       }]
     }, {
       test:/\.scss$/,
@@ -32,7 +32,9 @@ const config = {
         "sass-loader"
       ]
     }]
-  }
+  },
 };
+
+
 
 module.exports = config;

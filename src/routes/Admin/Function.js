@@ -111,7 +111,7 @@ adminFunctionRouter.get('/pen-spend-mnsub-get', async(req,res) => {
     } catch(e) {
         console.log(e)
     }
-    res.json({minorData, subMinorData})
+    res.json({minorData, subMinorData}) 
 })
 
 adminFunctionRouter.post('/pen-spend-mnsub-add', async(req,res) => {
