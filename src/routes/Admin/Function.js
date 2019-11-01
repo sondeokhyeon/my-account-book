@@ -68,10 +68,23 @@ adminFunctionRouter.get('/pen-major-select', async(req, res) => {
 
 adminFunctionRouter.post('/pen-major-add', async(req, res) => {
   const { body : {major_name, minor_name}} = req  
+  let type = '';
+  switch(major_name) {
+     case '지출' : 
+        type = 'S'
+        break;
+     case '이체' : 
+        type = 'F'
+        break;
+     case '수입' : 
+        type = 'I'
+        break;
+  } 
   try {
       await db.STP_ISMJ.create({
           ISMJ_MJ_NM: major_name,
-          ISMJ_MN_NM: minor_name
+          ISMJ_MN_NM: minor_name,
+          ISMJ_TYPE: type
       })
   } catch(e) {
     console.log(e)
@@ -80,42 +93,61 @@ adminFunctionRouter.post('/pen-major-add', async(req, res) => {
 })
 
 adminFunctionRouter.get('/pen-spend-mnsub-get', async(req,res) => {
-    const { query : { minor_name }} = req
-    let minorData = '';
-    let subMinorData = '';
+    const { query : { majorName }} = req
+    let minor = [];
+    let subminor = [];
+
+    let DBDatas = '';
     try {
-        minorData = await db.STP_ISMJ.findOne({
+        DBDatas = await db.STP_ISMJ.findAll({
             raw : true,
             attributes: [
                 'ISMJ_NO',
-                [sequelize.fn('date_format', sequelize.col('createdAt'), '%Y-%m-%d %T'), 'createdAt'],
-                [sequelize.fn('date_format', sequelize.col('updatedAt'), '%Y-%m-%d %T'), 'updatedAt'],
-            ],
-            where : {
-                'ISMJ_MN_NM' : minor_name
-            }
-        })
-        subMinorData = await db.STP_ISMJ.findAll({
-            raw: true,
-            attributes: [
-                'ISMJ_NO',
+                'ISMJ_MJ_NM',
+                'ISMJ_MN_NM',
                 'ISMJ_MS_NM',
+                'ISMJ_TYPE',
+                'ISMJ_RANK',
                 [sequelize.fn('date_format', sequelize.col('createdAt'), '%Y-%m-%d %T'), 'createdAt'],
                 [sequelize.fn('date_format', sequelize.col('updatedAt'), '%Y-%m-%d %T'), 'updatedAt'],
             ],
             where : {
-                'ISMJ_MN_NM' : minor_name
+                'ISMJ_MJ_NM' : majorName
             }
         })
 
+        DBDatas.map((data) => {
+            if(data.ISMJ_TYPE === 'S') {
+                minor.push(data)
+            } else {
+                subminor.push(data)
+            }
+        })
     } catch(e) {
         console.log(e)
     }
-    res.json({minorData, subMinorData}) 
+    res.json({minor, subminor} );
 })
 
 adminFunctionRouter.post('/pen-spend-mnsub-add', async(req,res) => {
-    
-})
+    const { body : {major_name, minor_name, minor_sub_name}} = req  
+    let type = '';
+    try {
+        if(minor_sub_name) {
+            type = 'A'
+        } else {
+            throw '이름이 입력 안됨'
+        }
+        await db.STP_ISMJ.create({
+            ISMJ_MJ_NM: major_name,
+            ISMJ_MN_NM: minor_name,
+            ISMJ_MS_NM: minor_sub_name,
+            ISMJ_TYPE: type
+        })
+    } catch(e) {
+      console.log(e);
+    }
+    res.redirect('/admin/pen');
+}) 
 
 export default adminFunctionRouter;

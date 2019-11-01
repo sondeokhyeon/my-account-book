@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     ISMJ_MJ_NM: DataTypes.STRING, // major
     ISMJ_MN_NM: DataTypes.STRING, // minor
     ISMJ_MS_NM: DataTypes.STRING, // minorsub
+    ISMJ_TYPE: DataTypes.CHAR,    // 타입분류
+    ISMJ_RANK: DataTypes.INTEGER, // 우선순위
     createdAt: {
       type: DataTypes.DATE,
       get() {

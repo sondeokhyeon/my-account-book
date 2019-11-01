@@ -1,5 +1,4 @@
-
-
+@import '../../../node_modules/vanillatree/vanillatree.css';
 
 .pen-major__modal-container {
     display: none;
@@ -65,7 +64,24 @@ main {
         }
     }
 
-    .speding-table__header {
-        text-align: right;
+    #spending__container {
+        #speding-table__header {
+            text-align: right;
+        }
+        #speding-table__body {
+            display: flex;
+            #spending-tree-container {
+                width: 75%;
+                ul {
+                    height: 100%;                    
+                    li {
+                        line-height: 22px;
+                    }
+                }
+            }
+            #spending-section-container {
+                width: 100%;
+            }
+        }
     }
 }

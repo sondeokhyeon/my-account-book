@@ -53,110 +53,60 @@ block content
         </div>
 
     script(id="pen-spending__body-table" type="text/x-handlebars-template").
-        <h2>{{title}}</h2>
-        <div id="speding-table__header">
-            <button id={{add_btn}}>지출분류 등록</button>
-            <div id="speding-table__header-info"></div>
-        </div>
-        <table>
-            <tr>
-            {{#each DB}}
-                <td class="spend-select" data-id={{ISMJ_NO}}>{{ISMJ_MN_NM}}</td>
-            {{/each}}
-            </tr>
-        </table> 
-        <div id="speding-table__body">
-            
-        </div>
-        <div id="pen-major__modal-container" class="pen-major__modal-container">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3>등록하기</h3>
-                    <h4 id="modal-close">X</h4>
-                </div>
-                <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
-                    <div class="modal-body">
-                        <label> 대분류 이름
-                            <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
-                        </label>
-                        <br>
-                        <label> 중분류 이름
-                            <input type="text" name="minor_name" required>
-                        </label>
-                        <br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="pen-major__add-btn">등록하기</button>
-                        <button type="reset">취소하기</button>
-                    </div>
-                </form>
-            </div>         
-        </div>
-
-    script(id="spending__header-info-contents" type="text/x-handlebars-template").
-        <div>
-             <div>
-                <span>
-                    입력일
-                </span>
-                <span>
-                    {{createdAt}}
-                </span>
-                <span>
-                    수정
-                </span>
-                <span>
-                    <button id="header-info-content__updateBtn">수정하기</button>
-                </span>
+        <div id="spending__container">
+            <h2>{{title}}</h2>
+            <div id="speding-table__header">
+                <button id={{add_btn}}>지출대분류 등록</button>
             </div>
-        </div>
-
-
-    script(id="spending__body-contents" type="text/x-handlebars-template").
-        <div>
-            <button id={{add_btn}}>등록하기</button>
-                <table>
-                    <th>이름</th><th>입력일</th><th>수정</th><th>삭제</th>
-                    <tr>
-                        <td>소분류</td>
-                        <td>입력일시</td>
-                        <td><button>수정하기</button></td>
-                        <td><button>삭제하기</button></td>
-                    </tr>
-                    {{#each DB}}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {{/each}}
-                </table> 
-                <div id="speding-add__modal-container" class="pen-major__modal-container">
-                    <div class="modal">
-                        <div class="modal-header">
-                            <h3>등록하기</h3>
-                            <h4 id="speding-modal-close">X</h4>
+            <table>
+                <th style="text-align:left;">중분류 | 소분류</th><th>입력일</th><th>수정</th><th>삭제</th>
+            </table> 
+            <div id="speding-table__body">
+                <div id="spending-tree-container"></div>
+                <div id="spending-section-container"></div>
+            </div>
+            <div id="pen-major__modal-container" class="pen-major__modal-container">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>등록하기</h3>
+                        <h4 id="modal-close">X</h4>
+                    </div>
+                    <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
+                        <div class="modal-body">
+                            <label> 대분류 이름
+                                <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
+                            </label>
+                            <br>
+                            <label> 중분류 이름
+                                <input type="text" name="minor_name" required>
+                            </label>
+                            <br>
                         </div>
-                        <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
-                            <div class="modal-body">
-                                <label> 대분류 이름
-                                    <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
-                                </label>
-                                <br>
-                                <label> 중분류 이름
-                                    <input type="text" name="minor_name" required>
-                                </label>
-                                <br>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="pen-major__add-btn">등록하기</button>
-                                <button type="reset">취소하기</button>
-                            </div>
-                        </form>
-                    </div>         
-                </div>
-        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="pen-major__add-btn">등록하기</button>
+                            <button type="reset">취소하기</button>
+                        </div>
+                    </form>
+                </div>         
+            </div>
+        </div>    
+
+    script(id="pen-spending__section-body-container" type="text/x-handlebars-template").
+        <table>
+            {{#each this}}
+                <tr>
+                    <td>
+                        {{createdAt}}
+                    </td>
+                    <td>
+                        <button item-id={{ISMJ_NO}}>수정하기</button>
+                    </td>
+                    <td>
+                        <button item-id={{ISMJ_NO}}>삭제하기</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </table> 
 
 
 
