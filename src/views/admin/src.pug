@@ -1,24 +1,8 @@
 extends ../cmm/layout/admin 
 block content
-    style(type="text/css").
-        .span__btn {
-            border : 1px solid #b9b9b9;
-            margin : 10px; 
-        }
-        .modals {
-            width: max-content;
-            display:none;
-        }
-        .modals .container .header {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-    h1 account
-
-    div#source-container
-        div.bodys
-            div
+    div.source-container
+        div.soruce-section
+            div.source-body
                 each src, index in srcs 
                     //- - console.log(index, src)
                     div
@@ -39,7 +23,7 @@ block content
                         button(type="button") 삭제하기 
 
         button.src__add(type=button id="modal-btn") 추가하기
-        div.modals#modals
+        div.soruce-add__modal#source-modals
             div.container
                     div.header
                         h2 추가하기

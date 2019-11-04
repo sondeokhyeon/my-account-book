@@ -1,86 +1,96 @@
 @import '../../../node_modules/vanillatree/vanillatree.css';
 
-.pen-major__modal-container {
-    display: none;
-    position: absolute;
-    top: 1px;
-    left: 0px;
-    float: left;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: #737373d1;
-    .modal {
+.source-container {
+    .span__btn {
+        border : 1px solid #b9b9b9;
+        margin : 10px; 
+    }
+    .modals {
         width: max-content;
-        background-color: white;
-        .modal-header{
-            display:flex;
-            justify-content: space-between;
-            padding: 0px 20px;
-        }  
-        .modal-body {
-            display: flex;
-            width:250px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        } 
-        .modal-footer {
-            height: 30px;
-            text-align: right;
-            padding-right: 20px;
-        }
+        display:none;
+    }
+    .modals .container .header {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
     }
 }
 
-main {
-    width: 100vw;
-    height: 100vh;
-    background-color: #f3f3f3;
-    .pen_major_container { 
-        width: 1300px;
-        background-color: white;
+
+.section {
+    min-width: 500px;
+    max-width: 1300px;
+    margin: 20px auto;
+
+    .pen-container {
+        min-width: 500px;
+        max-width: 1000px;
         margin : 0 auto;
-    }
-}
+        .pen-major__container {
+            min-height: 1000px;
+            background-color: white;
+                .active {
+                    background-color:slateblue;
+                    color:white;
+                }
+            .pen-major__header {
 
-.pen_major_container {
-    .body {
-        table {
-            width: 100%;
-            tbody {
-                width: 100%;
-                tr {
-                    td {
-                        text-align: center;
+            }
+            .pen-major__body {
+                #spending__container {
+                    #speding-table__header {
+                        text-align: right;
+                    }
+                    #speding-table__body {
+                        display: flex;
+                        #spending-tree-container {
+                            width: 75%;
+                            ul {
+                                height: 100%;                    
+                                li {
+                                    line-height: 22px;
+                                }
+                            }
+                        }
+                        #spending-section-container {
+                            width: 100%;
+                        }
                     }
                 }
-            }
-        }
-        .active {
-            background-color:slateblue;
-            color:white;
-        }
-    }
 
-    #spending__container {
-        #speding-table__header {
-            text-align: right;
-        }
-        #speding-table__body {
-            display: flex;
-            #spending-tree-container {
-                width: 75%;
-                ul {
-                    height: 100%;                    
-                    li {
-                        line-height: 22px;
+                .pen-major__modal-container {
+                    display: none;
+                    position: absolute;
+                    top: 1px;
+                    left: 0px;
+                    float: left;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: #737373d1;
+                    .modal {
+                        width: max-content;
+                        background-color: white;
+                        .modal-header{
+                            display:flex;
+                            justify-content: space-between;
+                            padding: 0px 20px;
+                        }  
+                        .modal-body {
+                            display: flex;
+                            width:250px;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                        } 
+                        .modal-footer {
+                            height: 30px;
+                            text-align: right;
+                            padding-right: 20px;
+                        }
                     }
                 }
-            }
-            #spending-section-container {
-                width: 100%;
             }
         }
     }

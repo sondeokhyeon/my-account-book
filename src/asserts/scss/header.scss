@@ -1,0 +1,16 @@
+header {
+    width: 100%;
+    background-color: white;
+    height: 60px;
+    border-bottom : 0.5px solid grey;
+    .header-container {
+        max-width: 1000px;
+        min-width: 500px;
+        height: inherit;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin : 0 auto;
+
+    }
+}

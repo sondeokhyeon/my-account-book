@@ -1,17 +1,13 @@
 extends ../cmm/layout/admin 
 block content
-    h1 account
-    div.pen__container#pen__container
-        div.pen__body
-            div.header 
-            div(class='section' id='section')
-                div.pen_major_container
-                    div.header
-                        button(type="button" id="income_load") 수입 관리
-                        button(type="button" id="transfer_load") 이체 관리
-                        span  | 
-                        button(type="button" id="spending_load") 지출 관리
-                    div.body#pen-major__body
+    div.pen-container#pen-container
+        div.pen-major__container
+            div.pen-major__header
+                button(type="button" id="income_load") 수입 관리
+                button(type="button" id="transfer_load") 이체 관리
+                span  | 
+                button(type="button" id="spending_load") 지출 관리
+            div.pen-major__body#pen-major__body
 
     script(id="pen-major__body-table" type="text/x-handlebars-template").
         <h2>{{title}}</h2>
