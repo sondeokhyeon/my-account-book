@@ -3,9 +3,31 @@ import express from 'express';
 import { db } from '../../middleware'
 import { sequelize } from '../../../database/models';
 
-const adminFunctionRouter = express.Router();
+const adminRestRouter = express.Router();
 
-adminFunctionRouter.get('/src-add',  async (req, res) => {
+
+
+adminRestRouter.get('/src-getdata', async (req, res) => {
+    let srcs;
+    await db.DT_SRC.findAll({
+        raw:true,
+        include : { 
+            model : db.SDT_USER,
+            attributes: ['USER_NM'],
+            replacements : 'USER_NM'
+        }
+    })
+    .then(result => {
+        srcs = result;
+    }) 
+    .catch( e => {
+        console.log(e)
+    })
+    res.json(srcs);
+})
+
+
+adminRestRouter.get('/src-add',  async (req, res) => {
     let users;    
     await db.SDT_USER.findAll({
         raw:true,
@@ -22,7 +44,8 @@ adminFunctionRouter.get('/src-add',  async (req, res) => {
     
 })
 
-adminFunctionRouter.post('/src-add',  async (req, res) => {
+adminRestRouter.post('/src-add',  async (req, res) => {
+
     const { body: {name, 
                     bank, 
                     category,
@@ -31,19 +54,25 @@ adminFunctionRouter.post('/src-add',  async (req, res) => {
                     user_no, 
                     comment} 
             } = req;
-   await db.DT_SRC.create({
-       SRC_NAME : name,
-       SRC_BANK : bank,
-       SRC_CATEGORY : category,
-       SRC_MONEY : money,
-       USER_NO: user_no,
-       IS_CREDIT : is_credit,
-       COMMENT : comment
-   })
+            
+    try {
+        await db.DT_SRC.create({
+            SRC_NAME : name,
+            SRC_BANK : bank,
+            SRC_CATEGORY : category,
+            SRC_MONEY : money,
+            USER_NO: user_no,
+            IS_CREDIT : is_credit,
+            COMMENT : comment
+        })
+    } catch (err) {
+        console.log(err)
+    }
+
    res.redirect('/admin/src')
 })
 
-adminFunctionRouter.get('/pen-major-select', async(req, res) => {
+adminRestRouter.get('/pen-major-select', async(req, res) => {
     const { query : {majorName} } = req;
     let data = '';
     try {
@@ -66,7 +95,7 @@ adminFunctionRouter.get('/pen-major-select', async(req, res) => {
     res.json(data)
 }) 
 
-adminFunctionRouter.post('/pen-major-add', async(req, res) => {
+adminRestRouter.post('/pen-major-add', async(req, res) => {
   const { body : {major_name, minor_name}} = req  
   let type = '';
   switch(major_name) {
@@ -92,7 +121,7 @@ adminFunctionRouter.post('/pen-major-add', async(req, res) => {
   res.redirect('/admin/pen')
 })
 
-adminFunctionRouter.get('/pen-spend-mnsub-get', async(req,res) => {
+adminRestRouter.get('/pen-spend-mnsub-get', async(req,res) => {
     const { query : { majorName }} = req
     let minor = [];
     let subminor = [];
@@ -129,7 +158,7 @@ adminFunctionRouter.get('/pen-spend-mnsub-get', async(req,res) => {
     res.json({minor, subminor} );
 })
 
-adminFunctionRouter.post('/pen-spend-mnsub-add', async(req,res) => {
+adminRestRouter.post('/pen-spend-mnsub-add', async(req,res) => {
     const { body : {major_name, minor_name, minor_sub_name}} = req  
     let type = '';
     try {
@@ -150,4 +179,4 @@ adminFunctionRouter.post('/pen-spend-mnsub-add', async(req,res) => {
     res.redirect('/admin/pen');
 }) 
 
-export default adminFunctionRouter;
+export default adminRestRouter;

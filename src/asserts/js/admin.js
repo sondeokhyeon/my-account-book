@@ -6,11 +6,13 @@ const {pathname} = location
 
 if(pathname.split('/')[1] === 'admin') {
     if(pathname.split('/')[2] === 'src') {
-      const modalBtn    =  document.getElementById('modal-btn')
-      const modalCloseBtn  =  document.getElementById('modal-close')
-      const regiSubmitBtn  =  document.getElementById('regi-submit')
-      const regiCancleBtn =  document.getElementById('regi-cancle')
-            async function modalOpen() {
+        const modalBtn        =  document.getElementById('modal-btn')
+        const modalCloseBtn   =  document.getElementById('modal-close')
+        const regiSubmitBtn   =  document.getElementById('regi-submit')
+        const regiCancleBtn   =  document.getElementById('regi-cancle')
+
+        const modal = {
+            open : async () => {
                 const { origin } = location
                 await fetch(origin + '/af/src-add', {
                     method: 'get'}
@@ -20,37 +22,78 @@ if(pathname.split('/')[1] === 'admin') {
                 })
                 .then(text => {
                     const select = document.getElementById('user_no');
+                    select.innerHTML = '';
                     const names = JSON.parse(text);
                     for (let index in names) {
                         select.innerHTML += `<option value=${names[index].USER_NO}> ${names[index].USER_NM} </option>`
                     }
                 })
-                document.getElementById('modals').style.display = 'flex'
-            }
+                document.getElementById('source-modals').style.display = 'flex'
+            }, 
 
-            function modalClose() {
-                document.getElementById('modals').style.display = 'none'
-            }
+            close : () => {
+                document.getElementById('source-modals').style.display = 'none'
+            },
 
-            function regiCancle() {
+            regiCancle : ()  => {
                 document.getElementById('src-form').reset();
-                document.getElementById('modals').style.display = 'none'
-            }
-            function regiSubmit() {
+                document.getElementById('source-modals').style.display = 'none'
+            }, 
+
+            regiSubmit : () => {
                 if(confirm('등록할꺼에유?') === true) {
                     document.getElementById('src-form').submit();
                     return;
                 } 
                 return false;
             }
+        }
 
-            function init() {
-                modalBtn.addEventListener('click', modalOpen)
-                modalCloseBtn.addEventListener('click', modalClose)
-                regiSubmitBtn.addEventListener('click', regiSubmit)
-                regiCancleBtn.addEventListener('click', regiCancle)
+        const insertModalInit = () => {
+            modalBtn.addEventListener('click', modal.open)
+            modalCloseBtn.addEventListener('click', modal.close)
+            regiSubmitBtn.addEventListener('click', modal.regiSubmit)
+            regiCancleBtn.addEventListener('click', modal.regiCancle)
+        }
+
+        handlebars.registerHelper('categoryChk', (val1) => {
+            if(val1 === null) {
+                return "";
+            } else if(val1 === 1) {
+                return "계좌"
+            } else {
+                return "카드"
             }
-            init();
+        })
+
+        handlebars.registerHelper('creditChk', (val1) => {
+            if(val1 === null) {
+                return "";
+            } else if(val1 === 1) {
+                return "신용카드"
+            } else {
+                return "체크카드"
+            }
+        })
+
+        const dataInit = async() => {
+            let item
+            const { origin } = location
+            await axios.get(origin + '/af/src-getdata')
+            .then(result => {
+                item = result.data
+            })
+            let template = document.getElementById('src-main__body').innerHTML
+            template = handlebars.compile(template);
+            console.log(item)
+            document.getElementById('main__body').innerHTML = template(item)
+        }
+
+        const init = () => {
+            dataInit()
+            insertModalInit()
+        }
+        init();
     } 
     if(pathname.split('/')[2] === 'pen') {
 
@@ -115,80 +158,98 @@ if(pathname.split('/')[1] === 'admin') {
             const src = document.getElementById('pen-spending__section-body-container').innerHTML
             const template = handlebars.compile(src);
             document.getElementById('spending-section-container').innerHTML = template(resultItems);   
-            
         }
 
-        const spendingLoad = (viewData, section, item) => {
-            document.getElementById(section + '_load').addEventListener('click', async ()=> {
-                const src = document.getElementById('pen-spending__body-table').innerHTML;
-                let items = viewData;
-
-                let dbData = '';
-                const { origin } = location
-                await axios.get(origin + '/af/pen-spend-mnsub-get', {
-                    params : {
-                        majorName : item
-                    }
-                })
-                .then(result => {
-                   dbData = result.data;
-                })
-
-                const template = handlebars.compile(src);
-                document.getElementById('pen-major__body').innerHTML = template(items)
-                document.getElementById(section + '-add').addEventListener('click', majorInsertModalOpen) 
-                spendRender(dbData);
+        const bodyLoader = async (viewData, section, item, reqURL) => {
+            const src = document.getElementById(section === 'spending' ? 'pen-spending__body-table' : 'pen-major__body-table').innerHTML;
+            let items = viewData;
+            let dbData = '';
+            const { origin } = location
+            await axios.get(origin + reqURL, {
+                params : {
+                    majorName : item
+                }
             })
-        }
-
-        const incomeTransferLoad = (viewData, section, item) => {
-            document.getElementById(section + '_load').addEventListener('click', async ()=> {
-                const src = document.getElementById('pen-major__body-table').innerHTML;
-                let items = viewData;
-                let dbData = '';
-                const { origin } = location
-                await axios.get(origin + '/af/pen-major-select', {
-                    params : {
-                        majorName : item
-                    }
-                })
-                .then(result => {
-                   dbData = result.data;
-                })
-                items.DB = dbData;
-                const template = handlebars.compile(src);
-                document.getElementById('pen-major__body').innerHTML = template(items)
-                document.getElementById(section + '-add').addEventListener('click', majorInsertModalOpen) 
+            .then(result => {
+                dbData = result.data;
             })
+            items.DB = dbData;
+
+            const template = handlebars.compile(src);
+            document.getElementById('pen-major__body').innerHTML = template(items)
+            document.getElementById(section + '-add').addEventListener('click', majorInsertModalOpen) 
+            section === 'spending' && spendRender(dbData);
         }
 
         const incomeInit = () => {
             let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
             let section = 'income'
             let item = '수입'
-            incomeTransferLoad(viewData, section, item);
+            bodyLoader(viewData, section, item , '/af/pen-major-select');
         }
         
         const spendingInit = () => {
             let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
             let section = 'spending'
             let item = '지출'
-            spendingLoad(viewData, section, item);
+            bodyLoader(viewData, section, item, '/af/pen-spend-mnsub-get');
         }
         
         const transferInit = () => {
             let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
             let section = 'transfer'
             let item = '이체'
-            incomeTransferLoad(viewData, section, item);
+            bodyLoader(viewData, section, item , '/af/pen-major-select');
         }
 
+        const hashManager = (hashcode) => {
+            let item ;
+            if (hashcode) {
+                item = hashcode.split('_')[0]
+            } else {
+                item = location.hash
+            }
+            switch (item) {
+                case  "#income" : {
+                    incomeInit();
+                    break;
+                }
+                case  "#spending" : {
+                    spendingInit();
+                    break;
+                }
+                case  "#transfer" : {
+                    transferInit();
+                    break;    
+                }
+                default : {
+                    location.hash = 'income'
+                    break;
+                }
+            }
+        } 
+
+        const historyManager = () => {
+            window.addEventListener('hashchange', (event) => {
+                hashManager(event.newURL.split('/pen')[1])
+            })
+        }
+        
+        const btnEventManager = () => {
+            Array.from(document.getElementsByClassName('pen_changer')).map(item => {
+                item.addEventListener('click', () => {
+                    location.hash = item.getAttribute('id').split('_')[0]
+                })
+            }) 
+        }
+            
         function init() {
-            incomeInit()
-            spendingInit()
-            transferInit()
+            hashManager() 
+            historyManager()
+            btnEventManager()
         }
         init();
-    } 
-}
+    }
+} 
+
 

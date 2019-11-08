@@ -2,62 +2,77 @@ extends ../cmm/layout/admin
 block content
     div.source-container
         div.soruce-section
-            div.source-body
-                each src, index in srcs 
-                    //- - console.log(index, src)
-                    div
-                        span= src.SRC_NAME
-                        span= src.SRC_BANK
-                        if src.SRC_CATEGORY === 1
-                            span= '계좌'
-                        else 
-                            span= "카드"
-                        span= src.SRC_MONEY
-                        span= src['SDT_USER.USER_NM']
-                        if src.IS_CREDIT === 0
-                            span= '체크카드'
-                        else 
-                            span= '신용카드'
-                        span= src.COMMENT
-                        button(type="button") 수정하기 
-                        button(type="button") 삭제하기 
+            div.source-header
+                button.src__add(type=button id="modal-btn") 추가하기
+            div.source-body#main__body
+                //- each src, index in srcs 
+                //- //- - console.log(index, src)
+                //- div
+                //-     span= src.SRC_NAME
+                //-     span= src.SRC_BANK
+                //-     if src.SRC_CATEGORY === 1
+                //-         span= '계좌'
+                //-     else 
+                //-         span= "카드"
+                //-     span= src.SRC_MONEY
+                //-     span= src['SDT_USER.USER_NM']
+                //-     if src.IS_CREDIT === 0
+                //-         span= '체크카드'
+                //-     else 
+                //-         span= '신용카드'
+                //-     span= src.COMMENT
+                //-     button(type="button") 수정하기 
+                //-     button(type="button") 삭제하기 
 
-        button.src__add(type=button id="modal-btn") 추가하기
         div.soruce-add__modal#source-modals
-            div.container
-                    div.header
+            div.modals-container
+                    div.modal-header
                         h2 추가하기
                         h3(id="modal-close") X
-                    div.body
-                        form(action="./src-add", method="post" id="src-form")
-                            label 카드/계좌 이름
+                    div.modal-body
+                        form(action="../af/src-add", method="post" id="src-form")
+                            label.body-label 카드/계좌 이름
                                 input(type="text", required name="name" value="")
-                            br
-                            label 은행 이름
+                            label.body-label 은행 이름
                                 input(type="text", required name="bank")
-                            br
-                            label 초기 금액
+                            label.body-label 초기 금액
                                 input(type="text", required name="money")
-                            br
-                            label 카드/계좌
-                                input(type="radio", required name="category" value="1") 
-                                | 계좌
-                                input(type="radio", required name="category" value="0") 
-                                | 카드
-                            br
-                            label 신용카드/체크카드
-                                input(type="radio", required name="is_credit" value="0") 
-                                | 체크카드
-                                input(type="radio", required name="is_credit" value="1")
-                                | 신용카드
-                            br
-                            label 누가쓰니?
+                            label.body-label 카드/계좌
+                                label 
+                                    input(type="radio", required name="category" value="1") 
+                                    | 계좌
+                                label 
+                                    input(type="radio", required name="category" value="0") 
+                                    | 카드
+                            label.body-label 신용카드/체크카드
+                                label 
+                                    input(type="radio", required name="is_credit" value="0") 
+                                    | 체크카드
+                                label 
+                                    input(type="radio", required name="is_credit" value="1")
+                                    | 신용카드
+                            label.body-label 누가쓰니?
                                 select(name="user_no" required id="user_no")
                                     option(hidden) 선택하시오
-                            br
-                            label 메모
+                            label.body-label 메모
                                 input(type="text", name="comment")
-                            br
-                        div.footer
-                            span.span__btn.submit__btn(id='regi-submit') 등록하기
-                            span.span__btn.cancel__btn(id='regi-cancle') 취소하기
+                    div.modal-footer
+                        span.modal-footer__btn(id='regi-submit') 등록하기
+                        span.modal-footer__btn(id='regi-cancle') 취소하기
+
+
+    script(id="src-main__body" type="text/x-handlebars-template").
+        {{#each this}}
+            <div>
+                <span>{{SRC_NAME}}</span>
+                <span>{{SRC_BANK}}</span>
+                <span>{{categoryChk SRC_CATEGORY}}</span>
+                <span>{{[SDT_USER.USER_NM]}}</span>
+                <span>{{creditChk IS_CREDIT}}</span>
+                <span>{{COMMNET}}</span>
+                <button type="button" onclick={{SRC_NO}}> 수정하기 </button>
+                <button type="button" onclick={{SRC_NO}}> 삭제하기 </button>
+            </div>
+        {{/each}}
+
+                    

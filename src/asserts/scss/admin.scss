@@ -1,21 +1,58 @@
 @import '../../../node_modules/vanillatree/vanillatree.css';
 
 .source-container {
-    .span__btn {
-        border : 1px solid #b9b9b9;
-        margin : 10px; 
-    }
-    .modals {
-        width: max-content;
+    max-width: 1000px;
+    min-width: 500px;
+    margin: 20px auto;
+    background-color: white;
+    min-height: 1000px;
+    .soruce-add__modal {
         display:none;
-    }
-    .modals .container .header {
-        display: flex;
-        justify-content: space-around;
+        position: absolute;
+        left:1px;
+        top:1px;
+        width:100%;
+        height: 100vh;
         align-items: center;
+        justify-content: center;
+        background-color: #4848488f;
+        .modals-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+            padding: 15px;
+            width: 350px;
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin: 20px;
+            }
+            .modal-body {
+                width:100%;
+                display: flex;
+                flex-direction: column;
+                border-top:1px solid #b9b9b9;
+                border-bottom:1px solid #b9b9b9;
+                .body-label {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 10px;
+                    margin-bottom:10px;
+                }
+            }
+            .modal-footer {
+                width:100%;
+                margin-top:20px;
+                text-align: right;
+                .modal-footer__btn {
+                    margin : 10px; 
+                }
+            }
+        }
     }
 }
-
 
 .section {
     min-width: 500px;

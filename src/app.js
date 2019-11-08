@@ -11,7 +11,7 @@ import flash from 'connect-flash'
 import mainRouter from './routes/Main/Router';
 import dbRouter from './routes/DBRouter';
 import AdminRenderRouter from './routes/Admin/Render';
-import AdminFunctionRouter from './routes/Admin/Function';
+import AdminRestRouter from './routes/Admin/Rest';
 import reportRouter from './routes/Report/Router';
 
 //import { authenticateJwt, jwtz } from './passport'
@@ -64,7 +64,7 @@ import './passport'
 app.use('/',        mainRouter); 
 app.use('/db',      dbRouter);
 app.use('/admin',   AdminRenderRouter);
-app.use('/af/',     AdminFunctionRouter);
+app.use('/af/',     AdminRestRouter);
 app.use('/report',  reportRouter);
 
 export default app;
