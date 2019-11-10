@@ -23,43 +23,75 @@ block content
                 //-     span= src.COMMENT
                 //-     button(type="button") 수정하기 
                 //-     button(type="button") 삭제하기 
+        div#modal-container
+    script(id="modal-add__partial" type="text/x-handlebars-template"). 
+        <label class="body-label">카드/계좌
+            <label> 
+                <input type="radio" required="required" name="category" value="1" id="category_one"/>계좌
+            </label>
+            <label> 
+                <input type="radio" required="required" name="category" value="0" id="category_two"/>카드
+            </label>
+        </label>
+        <label class="body-label">신용카드/체크카드
+            <label> 
+                <input type="radio" required="required" name="is_credit" value="0" id="credit_one"/>체크카드
+            </label>
+            <label> 
+                <input type="radio" required="required" name="is_credit" value="1" id="credit_two"/>신용카드
+            </label>
+        </label>
+        <label class="body-label">누가쓰니?
+            <select name="user_no" required="required" id="user_no">
+                <option hidden="hidden">선택하시오</option>
+            </select>
+        </label>
 
-        div.soruce-add__modal#source-modals
-            div.modals-container
-                    div.modal-header
-                        h2 추가하기
-                        h3(id="modal-close") X
-                    div.modal-body
-                        form(action="../af/src-add", method="post" id="src-form")
-                            label.body-label 카드/계좌 이름
-                                input(type="text", required name="name" value="")
-                            label.body-label 은행 이름
-                                input(type="text", required name="bank")
-                            label.body-label 초기 금액
-                                input(type="text", required name="money")
-                            label.body-label 카드/계좌
-                                label 
-                                    input(type="radio", required name="category" value="1") 
-                                    | 계좌
-                                label 
-                                    input(type="radio", required name="category" value="0") 
-                                    | 카드
-                            label.body-label 신용카드/체크카드
-                                label 
-                                    input(type="radio", required name="is_credit" value="0") 
-                                    | 체크카드
-                                label 
-                                    input(type="radio", required name="is_credit" value="1")
-                                    | 신용카드
-                            label.body-label 누가쓰니?
-                                select(name="user_no" required id="user_no")
-                                    option(hidden) 선택하시오
-                            label.body-label 메모
-                                input(type="text", name="comment")
-                    div.modal-footer
-                        span.modal-footer__btn(id='regi-submit') 등록하기
-                        span.modal-footer__btn(id='regi-cancle') 취소하기
+    script(id="modal-modify__partial" type="text/x-handlebars-template"). 
+        <label class="body-label">카드/계좌
+            <label> 
+                <input type="text" disabled value="{{creditChk IS_CREDIT}}"/>
+            </label>
+        </label>
+        <label class="body-label">신용카드/체크카드
+            <label> 
+                <input type="text" disabled value="{{categoryChk SRC_CATEGORY}}"/>
+            </label>
+        </label>
+        <label class="body-label">누가쓰니?
+                <input type="text" disabled value="{{info.SDT_USER.USER_NM}}">
+        </label>
+                <input type="hidden"  name="srcNo" value="{{info.SRC_NO}}" readonly>
 
+    script(id="src-main__modal" type="text/x-handlebars-template").
+        <div class="soruce-add__modal" id="source-modals">
+            <div class="modals-container">
+                <div class="modal-header">
+                    <h2>{{modalTitle}}</h2>
+                    <h3 id="modal-close">X</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="src-form">
+                        <label class="body-label">카드/계좌 이름
+                            <input type="text" required="required" name="name" value='{{info.SRC_NAME}}' id="src_name"/>
+                        </label>
+                        <label class="body-label">은행 이름
+                            <input type="text" required="required" name="bank" value='{{info.SRC_BANK}}' id="src_bank"/>
+                        </label>
+                        <label class="body-label">초기 금액
+                            <input type="text" required="required" name="money" value='{{info.SRC_MONEY}}' id="src_money"/>
+                        </label>
+                        {{#> subForm}}
+                            <span style="color:red; font-weight:bold;">ERROR!</span>
+                        {{/ subForm}}
+                        <label class="body-label">메모
+                            <input type="text" name="comment" id="comment" value='{{info.COMMENT}}'/>
+                        </label>
+                    </form>
+                </div>
+                <div class="modal-footer" id="modal-footer"></div>
+            </div>
+        </div>
 
     script(id="src-main__body" type="text/x-handlebars-template").
         {{#each this}}
@@ -70,9 +102,8 @@ block content
                 <span>{{[SDT_USER.USER_NM]}}</span>
                 <span>{{creditChk IS_CREDIT}}</span>
                 <span>{{COMMNET}}</span>
-                <button type="button" onclick={{SRC_NO}}> 수정하기 </button>
-                <button type="button" onclick={{SRC_NO}}> 삭제하기 </button>
+                <button type="button" class="data-modify" data-no={{SRC_NO}}> 수정하기 </button>
+                <button type="button" class="data-delete" data-no={{SRC_NO}}> 삭제하기 </button>
             </div>
         {{/each}}
 
-                    

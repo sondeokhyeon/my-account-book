@@ -45,7 +45,6 @@ adminRestRouter.get('/src-add',  async (req, res) => {
 })
 
 adminRestRouter.post('/src-add',  async (req, res) => {
-
     const { body: {name, 
                     bank, 
                     category,
@@ -68,8 +67,45 @@ adminRestRouter.post('/src-add',  async (req, res) => {
     } catch (err) {
         console.log(err)
     }
-
    res.redirect('/admin/src')
+})
+
+
+adminRestRouter.get('/src-modify', async (req, res) => {
+    const {query : { srcNo }} = req;
+    let data;
+    try {
+        data = await db.DT_SRC.findOne({
+            where: { SRC_NO : srcNo },
+            include : { 
+                model : db.SDT_USER,
+                attributes: ['USER_NM'],
+                replacements : 'USER_NM'
+            }
+        })
+        
+    } catch (err) {
+        console.log(err)
+    }
+    res.json(data)
+})
+
+adminRestRouter.post('/src-modify', async (req, res) => {
+    const { body : {name, bank, money, srcNo, comment} } = req;
+    try {
+        await db.DT_SRC.update({
+            SRC_NAME: name,
+            SRC_BANK: bank,
+            SRC_MONEY: money,
+            COMMNET: comment
+        }, {
+            where: {SRC_NO : srcNo}
+        })
+    } catch (err) {
+        console.log(err)
+        res.redirect('/admin/src?msg=fail')
+    }
+    res.redirect('/admin/src?msg=success')
 })
 
 adminRestRouter.get('/pen-major-select', async(req, res) => {
