@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     SRC_MONEY:DataTypes.INTEGER,
     USER_NO: DataTypes.INTEGER,
     IS_CREDIT : DataTypes.BOOLEAN,
+    IS_USE: DataTypes.BOOLEAN,
     COMMNET:DataTypes.STRING
   }, {});
   DT_SRC.associate = function(models) {

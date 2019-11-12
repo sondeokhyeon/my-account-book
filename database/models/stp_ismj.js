@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     ISMJ_MS_NM: DataTypes.STRING, // minorsub
     ISMJ_TYPE: DataTypes.CHAR,    // 타입분류
     ISMJ_RANK: DataTypes.INTEGER, // 우선순위
+    IS_USE : DataTypes.BOOLEAN,
     createdAt: {
       type: DataTypes.DATE,
       get() {
