@@ -1,0 +1,7 @@
+{
+    "verbose": true,
+    "ignore" : ["/sessions/*","/src/asserts/*", "/src/static/*", "**.pug"],
+    "nodemonConfig": {
+        "delay": "2500"
+    }
+}
