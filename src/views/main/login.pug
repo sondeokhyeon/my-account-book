@@ -1,20 +1,59 @@
 doctype html
 html
     head
+        title 로그인
+        link(rel="stylesheet", href="../../static/styles.css")
     body
-        h1 login!
-        div
-            h3 #{msg}
-            form(action="login", method="post")
-                span(style='margin-left: 8px') ID
-                    input(type="text", name="id")
-                br
-                span PW
-                    input(type="password", name="pw")
-                br
-                button(type="submit") 로그인
-        div
-            //- audio(controls)
-            //-     source(src="upload/test.mp3" type="audio/mp3")
+        div.contents-container
+            div.login-container.view.active#login
+                div.login-header
+                    h1.login-title login!
+                div.login-body
+                    form(action="login", method="post")
+                        div ID
+                            input(type="text", name="id")
+                        div PW
+                            input(type="password", name="pw")
+                        button(type="submit") 로그인
+                        p 등록할껀가유? 
+                            a#signup-change.form-change 등록
+            div.signup-container.view#signup
+                div.signup-header
+                    h1.signup-title 회원가입
+                div.signup-body
+                    form(action="signup", method="post")
+                        div
+                            span 우리 비밀번호
+                                input(type="password", name="our_pw" placeholder="비번")
+                        div
+                            span 이름 
+                                input(type="text", name="id" placeholder="이름(한글로 적으셈)") 
+                        div
+                            span 비번
+                                input(type="password", name="pw" placeholder="비번")
+                        button(type="submit" id="try-signup") 등록 
+                        p 로그인할껀가유?
+                            a#login-change.form-change 로그인
 
-        
+        script.
+            Array.from(document.getElementsByClassName('form-change')).map(item => {
+                item.addEventListener('click', (e) => {
+                    if((e.target.getAttribute('id').split('-')[0]) === 'signup') {
+                        document.getElementById('login').classList.remove('active')
+                        document.getElementById('signup').classList.add('active')
+                    } else {
+                        document.getElementById('signup').classList.remove('active')
+                        document.getElementById('login').classList.add('active')
+                    }
+                }) 
+            })
+            document.getElementById('try-signup').addEventListener('click', (e) => {
+                if(confirm('등록할랍니까?') !== true) {
+                    e.preventDefault()
+                    return false;
+                } 
+            })
+
+    
+
+            
