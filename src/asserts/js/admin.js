@@ -160,156 +160,158 @@ if(pathname.split('/')[1] === 'admin') {
     } 
     if(pathname.split('/')[2] === 'pen') {
 
-        const majorInsertModalOpen = () => {
-            document.getElementById('pen-major__modal-container').style.display = 'flex'
-            document.getElementById('modal-close').addEventListener('click', () => {
-                document.getElementById('pen-major__modal-container').style.display = 'none';
-            })
-            document.getElementById('pen-major__add-btn').addEventListener('click', () => {
-                if(confirm('등록하시렵니까?') === true) {
-                    document.getElementById('pen-major__add-form').submit();
-                    return;
-                } 
-                return false;
-            })
+        const setup = {
+            incomeInit : () => {
+                let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
+                let section = 'income'
+                let item = '수입'
+                render.contentsBody(viewData, section, item , '/af/pen-major-select');
+            },
+             spendingInit : () => {
+                let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
+                let section = 'spending'
+                let item = '지출'
+                render.contentsBody(viewData, section, item, '/af/pen-spend-mnsub-get');
+            },
+             transferInit : () => {
+                let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
+                let section = 'transfer'
+                let item = '이체'
+                render.contentsBody(viewData, section, item , '/af/pen-major-select');
+            },
+            majorInsertModalOpen : () => {
+                document.getElementById('pen-major__modal-container').style.display = 'flex'
+                document.getElementById('modal-close').addEventListener('click', () => {
+                    document.getElementById('pen-major__modal-container').style.display = 'none';
+                })
+                document.getElementById('pen-major__add-btn').addEventListener('click', () => {
+                    if(confirm('등록하시렵니까?') === true) {
+                        document.getElementById('pen-major__add-form').submit();
+                        return;
+                    } 
+                    return false;
+                })
+            },
+            hashHandler : (hashcode) => {
+                let item ;
+                if (hashcode) {
+                    item = hashcode.split('_')[0]
+                } else {
+                    item = location.hash
+                }
+                switch (item) {
+                    case  "#income"   : { setup.incomeInit();    break;  }
+                    case  "#spending" : { setup.spendingInit();  break;  }
+                    case  "#transfer" : { setup.transferInit();  break;  }
+                    default           : { location.hash = 'income'; break;  }
+                }
+            }, 
+            historyHandler : () => {
+                window.addEventListener('hashchange', (event) => {setup.hashHandler(event.newURL.split('/pen')[1])})
+            },
+            btnEventHandler : () => {
+                Array.from(document.getElementsByClassName('pen_changer')).map(item => {
+                    item.addEventListener('click', () => {
+                        location.hash = item.getAttribute('id').split('_')[0]
+                    })
+                }) 
+            },
+            dataModify : () => {
+                Array.from(document.getElementsByClassName('item-modify')).map(item => {
+                    item.addEventListener('click', (e) => {
+                        console.log(e.target)
+                    })
+                })
+            },
+            dataDelete : () => {
+                Array.from(document.getElementsByClassName('item-delete')).map(item => {
+                    item.addEventListener('click', (e) => {
+                        console.log(e.target)
+                    })
+                })
+            }
         }
 
-        const spendRender = async (DBdata) => {
-            const {minor, subminor} = DBdata;
-            const tree = new VanillaTree('#spending-tree-container');
-
-            let primitiveItems = [];
-            let DOMItems = [];
-            let resultItems = [];
-
-            await minor.map(item  => {
-                tree.add({
-                    label: item.ISMJ_MN_NM,
-                    id: item.ISMJ_MN_NM,
-                    opened: true,
+        const render =  {
+            spend : async (DBdata) => {
+                const {minor, subminor} = DBdata;
+                const tree = new VanillaTree('#spending-tree-container');
+    
+                let primitiveItems = [];
+                let DOMItems = [];
+                let resultItems = [];
+    
+                await minor.map(item  => {
+                    tree.add({
+                        label: item.ISMJ_MN_NM,
+                        id: item.ISMJ_MN_NM,
+                        opened: true,
+                    });
+                    primitiveItems.push(item)
+    
                 });
-                primitiveItems.push(item)
-
-            });
-            await subminor.map(item  => { 
-                tree.add({
-                    label: item.ISMJ_MS_NM,
-                    parent: item.ISMJ_MN_NM,
-                    id : item.ISMJ_MS_NM
+                await subminor.map(item  => { 
+                    tree.add({
+                        label: item.ISMJ_MS_NM,
+                        parent: item.ISMJ_MN_NM,
+                        id : item.ISMJ_MS_NM
+                    });
+                    primitiveItems.push(item)
                 });
-                primitiveItems.push(item)
-            });
-            
-            Array.from(document.getElementsByClassName('vtree-leaf')).map(item => {
-                DOMItems.push(item.getAttribute('data-vtree-id'));
-            })
-
-            for (let i = 0; i < DOMItems.length; i++) {
-                for (let j = 0; j < DOMItems.length; j++) {
-                    if(primitiveItems[j].ISMJ_MS_NM !== null) {
-                        if(DOMItems[i] === primitiveItems[j].ISMJ_MS_NM) {
-                            resultItems.push(primitiveItems[j])
-                        }
-                    } else {
-                        if(DOMItems[i] === primitiveItems[j].ISMJ_MN_NM) {
-                            resultItems.push(primitiveItems[j])
+                
+                Array.from(document.getElementsByClassName('vtree-leaf')).map(item => {
+                    DOMItems.push(item.getAttribute('data-vtree-id'));
+                })
+    
+                for (let i = 0; i < DOMItems.length; i++) {
+                    for (let j = 0; j < DOMItems.length; j++) {
+                        if(primitiveItems[j].ISMJ_MS_NM !== null) {
+                            if(DOMItems[i] === primitiveItems[j].ISMJ_MS_NM) {
+                                resultItems.push(primitiveItems[j])
+                            }
+                        } else {
+                            if(DOMItems[i] === primitiveItems[j].ISMJ_MN_NM) {
+                                resultItems.push(primitiveItems[j])
+                            }
                         }
                     }
                 }
-            }
-
-            const src = document.getElementById('pen-spending__section-body-container').innerHTML
-            const template = handlebars.compile(src);
-            document.getElementById('spending-section-container').innerHTML = template(resultItems);   
-        }
-
-        const bodyLoader = async (viewData, section, item, reqURL) => {
-            const src = document.getElementById(section === 'spending' ? 'pen-spending__body-table' : 'pen-major__body-table').innerHTML;
-            let items = viewData;
-            let dbData = '';
-            const { origin } = location
-            await axios.get(origin + reqURL, {
-                params : {
-                    majorName : item
-                }
-            })
-            .then(result => {
-                dbData = result.data;
-            })
-            items.DB = dbData;
-
-            const template = handlebars.compile(src);
-            document.getElementById('pen-major__body').innerHTML = template(items)
-            document.getElementById(section + '-add').addEventListener('click', majorInsertModalOpen) 
-            section === 'spending' && spendRender(dbData);
-        }
-
-        const incomeInit = () => {
-            let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
-            let section = 'income'
-            let item = '수입'
-            bodyLoader(viewData, section, item , '/af/pen-major-select');
-        }
-        
-        const spendingInit = () => {
-            let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
-            let section = 'spending'
-            let item = '지출'
-            bodyLoader(viewData, section, item, '/af/pen-spend-mnsub-get');
-        }
-        
-        const transferInit = () => {
-            let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
-            let section = 'transfer'
-            let item = '이체'
-            bodyLoader(viewData, section, item , '/af/pen-major-select');
-        }
-
-        const hashManager = (hashcode) => {
-            let item ;
-            if (hashcode) {
-                item = hashcode.split('_')[0]
-            } else {
-                item = location.hash
-            }
-            switch (item) {
-                case  "#income" : {
-                    incomeInit();
-                    break;
-                }
-                case  "#spending" : {
-                    spendingInit();
-                    break;
-                }
-                case  "#transfer" : {
-                    transferInit();
-                    break;    
-                }
-                default : {
-                    location.hash = 'income'
-                    break;
-                }
-            }
-        } 
-
-        const historyManager = () => {
-            window.addEventListener('hashchange', (event) => {
-                hashManager(event.newURL.split('/pen')[1])
-            })
-        }
-        
-        const btnEventManager = () => {
-            Array.from(document.getElementsByClassName('pen_changer')).map(item => {
-                item.addEventListener('click', () => {
-                    location.hash = item.getAttribute('id').split('_')[0]
+                const src = document.getElementById('pen-spending__section-body-container').innerHTML
+                const template = handlebars.compile(src);
+                document.getElementById('spending-section-container').innerHTML = template(resultItems);   
+                setup.dataModify()
+                setup.dataDelete()
+            },
+            contentsBody : async (viewData, section, item, reqURL) => {
+                const src = document.getElementById(section === 'spending' ? 'pen-spending__body-table' : 'pen-major__body-table').innerHTML;
+                let items = viewData;
+                let dbData = '';
+                const { origin } = location
+                await axios.get(origin + reqURL, {
+                    params : {
+                        majorName : item
+                    }
                 })
-            }) 
+                .then(result => {
+                    dbData = result.data;
+                })
+                items.DB = dbData;
+
+                const template = handlebars.compile(src);
+                document.getElementById('pen-major__body').innerHTML = template(items)
+                document.getElementById(section + '-add').addEventListener('click', setup.majorInsertModalOpen) 
+                if (section === 'spending') {
+                    render.spend(dbData);
+                } else {
+                    setup.dataModify()
+                    setup.dataDelete()
+                }
+            }, 
         }
-            
-        function init() {
-            hashManager() 
-            historyManager()
-            btnEventManager()
+        function init()  {
+            setup.hashHandler() 
+            setup.historyHandler()
+            setup.btnEventHandler()
         }
         init();
     }

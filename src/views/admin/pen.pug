@@ -18,8 +18,8 @@ block content
             <tr>
                 <td class="none-select" data-id={{ISMJ_NO}}>{{ISMJ_MN_NM}}</td>
                 <td>{{createdAt}}</td>
-                <td><button>수정하기</button></td>
-                <td><button>삭제하기</button></td>
+                <td><button class="item-modify" data-id={{ISMJ_NO}}>수정하기</button></td>
+                <td><button class="item-delete" data-id={{ISMJ_NO}}>삭제하기</button></td>
             </tr>
             {{/each}}
         </table> 
@@ -95,10 +95,10 @@ block content
                         {{createdAt}}
                     </td>
                     <td>
-                        <button item-id={{ISMJ_NO}}>수정하기</button>
+                        <button class="item-modify" item-id={{ISMJ_NO}}>수정하기</button>
                     </td>
                     <td>
-                        <button item-id={{ISMJ_NO}}>삭제하기</button>
+                        <button class="item-delete" item-id={{ISMJ_NO}}>삭제하기</button>
                     </td>
                 </tr>
             {{/each}}
