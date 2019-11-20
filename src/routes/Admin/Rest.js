@@ -212,7 +212,7 @@ adminRestRouter.post('/pen-spend-mnsub-add', async(req,res) => {
     } catch(e) {
       console.log(e);
     }
-    res.redirect('/admin/pen');
+    res.redirect('/admin/pen#spending');
 }) 
 
 export default adminRestRouter;

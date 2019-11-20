@@ -26,8 +26,8 @@ export const renderHandler =  {
         if (section === 'spending') {
             renderHandler.spend(dbData);
         } else {
-            EventHandler.modifyHandler()
-            EventHandler.deleteHandler()
+            EventHandler.itemModify();
+            EventHandler.itemDelete();
         }
     },
 
@@ -88,8 +88,8 @@ export const renderHandler =  {
         let minorModalTemplate = handlebars.compile(document.getElementById('pen-minor_modal-container_template').innerHTML)
         document.getElementById('pen-minor__modal-container').innerHTML = minorModalTemplate();   
 
-        EventHandler.modifyHandler();
-        EventHandler.deleteHandler();
+        EventHandler.itemModify();
+        EventHandler.itemDelete();
         EventHandler.minorInsertModalInit();
 
     }    

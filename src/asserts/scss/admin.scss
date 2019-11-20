@@ -64,7 +64,6 @@
         max-width: 1000px;
         margin : 0 auto;
         .pen-major__container {
-            min-height: 1000px;
             background-color: white;
                 .active {
                     background-color:slateblue;
@@ -99,20 +98,22 @@
                     display: none;
                     position: absolute;
                     top: 1px;
-                    left: 0px;
-                    float: left;
+                    left: 1px;
                     justify-content: center;
                     align-items: center;
                     width: 100vw;
                     height: 100vh;
                     background-color: #737373d1;
-                    .modal {
+                    margin: 1px;
+                    .modal-wrap {
                         width: max-content;
                         background-color: white;
                         .modal-header{
                             display:flex;
                             justify-content: space-between;
                             padding: 0px 20px;
+                            height: 50px;
+                            line-height: 50px;
                         }  
                         .modal-body {
                             display: flex;
@@ -128,6 +129,42 @@
                         }
                     }
                 }
+
+                .minor__modal-container {
+                    display:  none;
+                    position: absolute;
+                    top: 1px;
+                    left: 1px;
+                    width: 100vw;
+                    height: 100vh;
+                    justify-content: center;
+                    align-items: center;
+                    background: #737373d1;
+                    .minor_modal-wrap {
+                        background: white;
+                        display: flex;
+                        flex-direction: column;
+                        .minor-modal_header {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 20px 20px;
+                        }
+                        .minor-modal_body {
+                            label {
+                                margin: 0 15px;
+                                display: block;
+                            }
+                            .minor-modal_footer {
+                                height: 30px;
+                                line-height: 20px;
+                                text-align: right;
+                                margin-right: 20px;
+                            }
+                        }
+                    }
+                }
+                
+
             }
         }
     }

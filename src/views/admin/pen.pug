@@ -24,7 +24,7 @@ block content
             {{/each}}
         </table> 
         <div id="pen-major__modal-container" class="pen-major__modal-container">
-            <div class="modal">
+            <div class="modal-wrap">
                 <div class="modal-header">
                     <h3>등록하기</h3>
                     <h4 id="modal-close">X</h4>
@@ -62,7 +62,7 @@ block content
                 <div id="spending-section-container"></div>
             </div>
             <div id="pen-major__modal-container" class="pen-major__modal-container">
-                <div class="modal">
+                <div class="modal-wrap">
                     <div class="modal-header">
                         <h3>등록하기</h3>
                         <h4 id="modal-close">X</h4>
@@ -85,6 +85,8 @@ block content
                     </form>
                 </div>         
             </div>
+            <div id="pen-minor__modal-container">
+            </div>
         </div>    
 
     script(id="pen-spending__section-body-container" type="text/x-handlebars-template").
@@ -100,9 +102,40 @@ block content
                     <td>
                         <button class="item-delete" item-id={{ISMJ_NO}}>삭제하기</button>
                     </td>
+                    {{{TYPECHK this}}}
                 </tr>
             {{/each}}
         </table> 
+
+    script(id="pen-minor_modal-container_template" type="text/x-handlebars-template").
+        <div class="minor__modal-container" id="minor-modal">
+            <div class="minor_modal-wrap">
+                <div class="minor-modal_header">
+                    <h3>등록하기</h3>
+                    <h4 id="minor-modal-close">X</h4>
+                </div>
+                <div class="minor-modal_body">
+                    <form id="minor-item-modal-form" method="post">
+                        <label> 대분류 이름
+                            <input type="text" id="minor-modal_major" name="major_name" value="{{MAJOR_NAME}}" readonly>
+                        </label>
+                        <br>
+                        <label> 중분류 이름
+                            <input type="text" id="minor-modal_minor" name="minor_name" value="{{MINOR_NAME}}" readonly>
+                        </label>
+                        <br>
+                        <label> 소분류 이름
+                            <input type="text" name="minor_sub_name" required>
+                        </label>
+                        <br>
+                        <div class="minor-modal_footer">
+                            <button type="button" id="sub_minor_submit">등록하기</button>
+                            <button type="button" id="sub_minor_cancle">취소하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
 
