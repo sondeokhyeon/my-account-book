@@ -134,16 +134,20 @@ adminRestRouter.get('/pen-major-select', async(req, res) => {
 adminRestRouter.post('/pen-major-add', async(req, res) => {
   const { body : {major_name, minor_name}} = req  
   let type = '';
+  let flag = '';
   switch(major_name) {
-     case '지출' : 
+    case '지출' : 
         type = 'S'
-        break;
-     case '이체' : 
+        flag = '#spending'
+    break;
+    case '이체' : 
         type = 'F'
-        break;
-     case '수입' : 
+        flag = '#transfer'
+    break;
+    case '수입' : 
         type = 'I'
-        break;
+        flag = '#income'
+    break;
   } 
   try {
       await db.STP_ISMJ.create({
@@ -154,7 +158,57 @@ adminRestRouter.post('/pen-major-add', async(req, res) => {
   } catch(e) {
     console.log(e)
   }
-  res.redirect('/admin/pen')
+  res.redirect('/admin/pen' + flag)
+})
+
+adminRestRouter.post('/pen-major-modify', async(req, res) => {
+  const { body : {major_name, minor_name ,item_no, type}} = req  
+
+  let flag = '';
+  switch(major_name) {
+    case '지출' : 
+        flag = '#spending'
+    break;
+    case '이체' : 
+        flag = '#transfer'
+    break;
+    case '수입' : 
+        flag = '#income'
+    break;
+  } 
+  
+  try {
+    if(type === 'S') {    
+        let oldItem = await db.STP_ISMJ.findOne({
+            raw : true,
+            attributes : [
+                'ISMJ_MN_NM'
+            ],
+            where : {'ISMJ_NO':item_no}
+        })
+        await db.STP_ISMJ.update({
+            ISMJ_MN_NM: minor_name,
+        }, {
+            where: {ISMJ_MN_NM : oldItem.ISMJ_MN_NM}
+        })
+    } else {
+        let oldItem = await db.STP_ISMJ.findOne({
+            raw : true,
+            attributes : [
+                'ISMJ_MS_NM'
+            ],
+            where : {'ISMJ_NO':item_no}
+        })
+        await db.STP_ISMJ.update({
+            ISMJ_MS_NM: minor_name,
+        }, {
+            where: {ISMJ_MS_NM : oldItem.ISMJ_MS_NM}
+        })
+    }
+  } catch(e) {
+    console.log(e)
+  }
+  res.redirect('/admin/pen' + flag);
 })
 
 adminRestRouter.get('/pen-spend-mnsub-get', async(req,res) => {

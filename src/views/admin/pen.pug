@@ -9,46 +9,28 @@ block content
                 button(type="button" id="spending_load" class="pen_changer") 지출 관리
             div.pen-major__body#pen-major__body
 
-    script(id="pen-major__body-table" type="text/x-handlebars-template").
-        <h2>{{title}}</h2>
-        <button id={{add_btn}}>등록하기</button>
-        <table>
-            <th>이름</th><th>입력일</th><th>수정</th><th>삭제</th>
-            {{#each DB}}
-            <tr>
-                <td class="none-select" data-id={{ISMJ_NO}}>{{ISMJ_MN_NM}}</td>
-                <td>{{createdAt}}</td>
-                <td><button class="item-modify" data-id={{ISMJ_NO}}>수정하기</button></td>
-                <td><button class="item-delete" data-id={{ISMJ_NO}}>삭제하기</button></td>
-            </tr>
-            {{/each}}
-        </table> 
-        <div id="pen-major__modal-container" class="pen-major__modal-container">
-            <div class="modal-wrap">
-                <div class="modal-header">
-                    <h3>등록하기</h3>
-                    <h4 id="modal-close">X</h4>
-                </div>
-                <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
-                    <div class="modal-body">
-                        <label> 대분류 이름
-                            <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
-                        </label>
-                        <br>
-                        <label> 중분류 이름
-                            <input type="text" name="minor_name" required>
-                        </label>
-                        <br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="pen-major__add-btn">등록하기</button>
-                        <button type="reset">취소하기</button>
-                    </div>
-                </form>
-            </div>         
+    script(id="pen-major__body-table-template" type="text/x-handlebars-template").
+        <div class="major-contents__section">
+            <div class="major-contents__body">
+                <h2>{{title}}</h2>
+                <button id={{add_btn}}>등록하기</button>
+                <table>
+                    <th>이름</th><th>입력일</th><th>수정</th><th>삭제</th>
+                    {{#each DB}}
+                    <tr>
+                        <td class="none-select" data-id={{ISMJ_NO}}>{{ISMJ_MN_NM}}</td>
+                        <td>{{createdAt}}</td>
+                        <td><button class="item-modify" item-type="S" mn-name="{{ISMJ_MN_NM}}" item-id="{{ISMJ_NO}}">수정하기</button></td>
+                        <td><button class="item-delete" item-type="S" data-id="{{ISMJ_NO}}">삭제하기</button></td>
+                    </tr>
+                    {{/each}}
+                </table> 
+            </div>
+            <div id="pen-major__modal-container-wrap">
+            </div>
         </div>
-
-    script(id="pen-spending__body-table" type="text/x-handlebars-template").
+        
+    script(id="pen-spending__body-table-template" type="text/x-handlebars-template").
         <div id="spending__container">
             <h2>{{title}}</h2>
             <div id="speding-table__header">
@@ -61,31 +43,9 @@ block content
                 <div id="spending-tree-container"></div>
                 <div id="spending-section-container"></div>
             </div>
-            <div id="pen-major__modal-container" class="pen-major__modal-container">
-                <div class="modal-wrap">
-                    <div class="modal-header">
-                        <h3>등록하기</h3>
-                        <h4 id="modal-close">X</h4>
-                    </div>
-                    <form action="/af/pen-major-add" method="post" id="pen-major__add-form">
-                        <div class="modal-body">
-                            <label> 대분류 이름
-                                <input type="text" name="major_name" value={{MAJOR_NAME}} readonly>
-                            </label>
-                            <br>
-                            <label> 중분류 이름
-                                <input type="text" name="minor_name" required>
-                            </label>
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="pen-major__add-btn">등록하기</button>
-                            <button type="reset">취소하기</button>
-                        </div>
-                    </form>
-                </div>         
+            <div id="pen-major__modal-container-wrap">
             </div>
-            <div id="pen-minor__modal-container">
+            <div id="pen-minor__modal-container-wrap">
             </div>
         </div>    
 
@@ -97,15 +57,43 @@ block content
                         {{createdAt}}
                     </td>
                     <td>
-                        <button class="item-modify" item-id={{ISMJ_NO}}>수정하기</button>
+                        <button class="item-modify" item-type="{{ISMJ_TYPE}}" item-id="{{ISMJ_NO}}" mn-name="{{ISMJ_MN_NM}}" sb-name="{{ISMJ_MS_NM}}" >수정하기</button>
                     </td>
                     <td>
-                        <button class="item-delete" item-id={{ISMJ_NO}}>삭제하기</button>
+                        <button class="item-delete" item-type="{{ISMJ_TYPE}}" item-id="{{ISMJ_NO}}">삭제하기</button>
                     </td>
                     {{{TYPECHK this}}}
                 </tr>
             {{/each}}
         </table> 
+
+    script(id='pen-major__modal-container-template' type="text/x-handlebars-template").
+        <div id="pen-major__modal-container" class="pen-major__modal-container">
+            <div class="modal-wrap">
+                <div class="modal-header">
+                    <h3>{{title}}</h3>
+                    <h4 id="modal-close">X</h4>
+                </div>
+                <form action="" method="post" id="pen-major__add-form">
+                    <div class="modal-body">
+                        <label> 대분류 이름
+                            <input type="text" name="major_name" value="{{MAJOR_NAME}}" readonly>
+                        </label>
+                        <br>
+                        <label> 중분류 이름
+                            <input type="text" name="minor_name" value="{{MINOR_NAME}}" required>
+                        </label>
+                        <br>
+                        <input type="hidden" name="item_no" value="{{ITEM_NO}}" readonly>
+                        <input type="hidden" name="type"    value="{{type}}"    readonly>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="pen-major__add-btn">{{title}}</button>
+                        <button type="reset">취소하기</button>
+                    </div>
+                </form>
+            </div>         
+        </div>    
 
     script(id="pen-minor_modal-container_template" type="text/x-handlebars-template").
         <div class="minor__modal-container" id="minor-modal">

@@ -3,22 +3,25 @@ import {renderHandler} from "./render";
 
 export const setupHandler = {
     incomeInit : () => {
-        let viewData = {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
+        let viewData =  {title:"수입 관리", add_btn:"income-add", MAJOR_NAME:"수입"}
+        let modalData = {title:"등록하기",  MAJOR_NAME:"수입" }
         let section = 'income'
         let item = '수입'
-        renderHandler.contentsBody(viewData, section, item , '/af/pen-major-select');
+        renderHandler.contentsBody(viewData, modalData, section, item , '/af/pen-major-select');
     },
      spendingInit : () => {
-        let viewData = {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
+        let viewData =  {title:"지출 관리", add_btn:"spending-add", MAJOR_NAME:"지출"}
+        let modalData = {title:"등록하기", MAJOR_NAME:"지출" }
         let section = 'spending'
         let item = '지출'
-        renderHandler.contentsBody(viewData, section, item, '/af/pen-spend-mnsub-get');
+        renderHandler.contentsBody(viewData, modalData, section, item, '/af/pen-spend-mnsub-get');
     },
      transferInit : () => {
-        let viewData = {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
+        let viewData =  {title:"이체 관리", add_btn:"transfer-add", MAJOR_NAME:"이체" }
+        let modalData = {title:"등록하기", MAJOR_NAME:"이체" }
         let section = 'transfer'
         let item = '이체'
-        renderHandler.contentsBody(viewData, section, item , '/af/pen-major-select');
+        renderHandler.contentsBody(viewData, modalData, section, item , '/af/pen-major-select');
     },
     hashHandler : (hashcode) => {
         let item ;

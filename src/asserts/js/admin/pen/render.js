@@ -5,8 +5,8 @@ import {EventHandler} from "./event"
 
 export const renderHandler =  {
 
-    contentsBody : async (viewData, section, item, reqURL) => {
-        const src = document.getElementById(section === 'spending' ? 'pen-spending__body-table' : 'pen-major__body-table').innerHTML;
+    contentsBody : async (viewData, modalData, section, item, reqURL) => {
+        const src = document.getElementById(section === 'spending' ? 'pen-spending__body-table-template' : 'pen-major__body-table-template').innerHTML;
         let items = viewData;
         let dbData = '';
         const { origin } = location
@@ -22,7 +22,7 @@ export const renderHandler =  {
 
         const template = handlebars.compile(src);
         document.getElementById('pen-major__body').innerHTML = template(items)
-        document.getElementById(section + '-add').addEventListener('click', EventHandler.majorInsertModalInit) 
+        document.getElementById(section + '-add').addEventListener('click', EventHandler.majorInsertModalInit.bind(null, modalData)) 
         if (section === 'spending') {
             renderHandler.spend(dbData);
         } else {
@@ -86,7 +86,7 @@ export const renderHandler =  {
         document.getElementById('spending-section-container').innerHTML = template(resultItems);   
 
         let minorModalTemplate = handlebars.compile(document.getElementById('pen-minor_modal-container_template').innerHTML)
-        document.getElementById('pen-minor__modal-container').innerHTML = minorModalTemplate();   
+        document.getElementById('pen-minor__modal-container-wrap').innerHTML = minorModalTemplate();   
 
         EventHandler.itemModify();
         EventHandler.itemDelete();

@@ -1,4 +1,6 @@
 'use strict';
+const moment = require('moment')
+
 module.exports = (sequelize, DataTypes) => {
   const STP_ISMJ = sequelize.define('STP_ISMJ', {
     ISMJ_NO: {
