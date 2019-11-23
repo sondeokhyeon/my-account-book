@@ -1,6 +1,5 @@
 
 import express from 'express';
-import { db } from '../../middleware'
 
 const adminRouter = express.Router();
 
