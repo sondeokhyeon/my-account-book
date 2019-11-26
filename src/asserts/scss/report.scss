@@ -1,0 +1,56 @@
+.report-root__container {
+    max-width: 1200px;
+    min-width: 600px;
+    height: 750px;
+    margin: 20px auto;
+    .report-insert__container {
+        position:fixed;
+    }
+    .report-situation__container {
+        max-width: 1000px;
+        min-width: 500px;
+        height: 70px;
+        margin: 0 auto;
+        background-color:azure;
+    }
+    .report-contents__container {
+        max-width: 1000px;
+        min-width: 500px;
+        height: 87%;
+        margin: 0 auto;
+        background-color: aqua;
+        .contents-box__container {
+            .contents-option__container{
+                display:flex;
+                flex-direction:row;
+                justify-content: space-between;
+                width:100%;
+                background-color:green;
+                padding:10px 0px 10px 0px;
+                height: 20px;
+                .option-calender__container {
+                    padding-left: 10px;
+                }
+                .option-search__container {
+                    padding-right : 10px;
+                }
+           } 
+           .contents-section__container {
+            overflow: scroll;
+            height: 600px;
+            .contents-section-title__container, 
+            .contents-section-body__container {
+                ul {
+                    display: flex;
+                    justify-content: space-around;
+                    li {
+                        display:inline-block;
+                        margin: 10px;
+                    }
+                }
+            }
+           }
+        }
+    }
+}   
+

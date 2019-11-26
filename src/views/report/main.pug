@@ -1,19 +1,89 @@
 extends  ../cmm/layout/template
 block content
     div.report-root__container
+        div.report-insert__container
+            button 가계부 등록
         div.report-situation__container
             div.situation-box__container
-
+                div.this-month-cash
+                    span 10000
+                div.this-month-card
+                    span 10000
         div.report-contents__container
             div.contents-box__container
-
                 div.contents-option__container
                     div.option-calender__container
-                    
+                        input(type="text")
+                        | ~
+                        input(type="text")
                     div.option-search__container
-
+                        input(type="text")
+                        button 검색
                 div.contents-section__container
+                    div.contents-section-title__container
+                        ul
+                            li 날짜
+                            li 분류
+                            li 소스 
+                            li 소스 
+                            li 내용
+                            li 금액
+                            li 메모
+                            li 사진
+                            li 수정
+                            li 삭제
+                    div.contents-section-body__container
+                            ul
+                                li 날짜
+                                li 분류
+                                li 소스 
+                                li 소스 
+                                li 내용
+                                li 금액
+                                li 메모
+                                li 사진
+                                li 수정
+                                li 삭제
 
+        script(type="javascript"). 
+            <div id="report-modal__container">
+                <div id="report-modal__header">
+                    <h3>{{title}}</h3>
+                    <h4 id="report-modal__close">X</h4>
+                </div>
+                <form>
+                    <div class="report-modal__body">
+                        <label> 분류 이름
+                            <input type="text" name="major_name" value readonly>
+                        </label>
+                        <label> 소스 이름
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                        <label> 소스2 이름
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                        <label> 내용 이름
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                        <label> 금액 이름
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                        <label> 메모 이름
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                        <label> 사진
+                            <input type="text" name="minor_name" value required>
+                        </label>
+                    </div>
+                    <div class="report-modal__footer">
+                        <button type="button" id="pen-major__add-btn">{{title}}</button>
+                        <button type="reset">취소하기</button>
+                    </div>
+                </form>
+
+            </div>
+
+                       
             
 
         

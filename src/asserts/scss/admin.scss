@@ -1,11 +1,16 @@
 @import '../../../node_modules/vanillatree/vanillatree.css';
 
 .source-container {
-    max-width: 1000px;
-    min-width: 500px;
+    max-width: 1300px;
+    min-width: 700px;
+    height: 80vh;
     margin: 20px auto;
     background-color: white;
-    min-height: 1000px;
+    .soruce-section {
+        min-width: 500px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
     .soruce-add__modal {
         display:none;
         position: absolute;
@@ -54,118 +59,110 @@
     }
 }
 
-.section {
+.pen-container {
     min-width: 500px;
-    max-width: 1300px;
-    margin: 20px auto;
-
-    .pen-container {
-        min-width: 500px;
-        max-width: 1000px;
-        margin : 0 auto;
-        .pen-major__container {
-            background-color: white;
-                .active {
-                    background-color:slateblue;
-                    color:white;
-                }
-            .pen-major__header {
-
+    max-width: 1000px;
+    margin : 0 auto;
+    height: 80vh;
+    .pen-major__container {
+        background-color: white;
+            .active {
+                background-color:slateblue;
+                color:white;
             }
-            .pen-major__body {
-                #spending__container {
-                    #speding-table__header {
-                        text-align: right;
-                    }
-                    #speding-table__body {
-                        display: flex;
-                        #spending-tree-container {
-                            width: 75%;
-                            ul {
-                                height: 100%;                    
-                                li {
-                                    line-height: 22px;
-                                }
+        .pen-major__body {
+            #spending__container {
+                #speding-table__header {
+                    text-align: right;
+                }
+                #speding-table__body {
+                    display: flex;
+                    #spending-tree-container {
+                        width: 75%;
+                        ul {
+                            height: 100%;                    
+                            li {
+                                line-height: 22px;
                             }
                         }
-                        #spending-section-container {
-                            width: 100%;
-                        }
+                    }
+                    #spending-section-container {
+                        width: 100%;
                     }
                 }
+            }
 
-                .pen-major__modal-container {
-                    display: none;
-                    position: absolute;
-                    top: 1px;
-                    left: 1px;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100vw;
-                    height: 100vh;
-                    background-color: #737373d1;
-                    margin: 1px;
-                    .modal-wrap {
-                        width: max-content;
-                        background-color: white;
-                        .modal-header{
-                            display:flex;
-                            justify-content: space-between;
-                            padding: 0px 20px;
-                            height: 50px;
-                            line-height: 50px;
-                        }  
-                        .modal-body {
-                            display: flex;
-                            width:250px;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                        } 
-                        .modal-footer {
-                            height: 30px;
-                            text-align: right;
-                            padding-right: 20px;
-                        }
-                    }
-                }
-
-                .minor__modal-container {
-                    display:  none;
-                    position: absolute;
-                    top: 1px;
-                    left: 1px;
-                    width: 100vw;
-                    height: 100vh;
-                    justify-content: center;
-                    align-items: center;
-                    background: #737373d1;
-                    .minor_modal-wrap {
-                        background: white;
+            .pen-major__modal-container {
+                display: none;
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                justify-content: center;
+                align-items: center;
+                width: 100vw;
+                height: 100vh;
+                background-color: #737373d1;
+                margin: 1px;
+                .modal-wrap {
+                    width: max-content;
+                    background-color: white;
+                    .modal-header{
+                        display:flex;
+                        justify-content: space-between;
+                        padding: 0px 20px;
+                        height: 50px;
+                        line-height: 50px;
+                    }  
+                    .modal-body {
                         display: flex;
+                        width:250px;
                         flex-direction: column;
-                        .minor-modal_header {
-                            display: flex;
-                            justify-content: space-between;
-                            padding: 20px 20px;
+                        justify-content: center;
+                        align-items: center;
+                    } 
+                    .modal-footer {
+                        height: 30px;
+                        text-align: right;
+                        padding-right: 20px;
+                    }
+                }
+            }
+
+            .minor__modal-container {
+                display:  none;
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                width: 100vw;
+                height: 100vh;
+                justify-content: center;
+                align-items: center;
+                background: #737373d1;
+                .minor_modal-wrap {
+                    background: white;
+                    display: flex;
+                    flex-direction: column;
+                    .minor-modal_header {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 20px 20px;
+                    }
+                    .minor-modal_body {
+                        label {
+                            margin: 0 15px;
+                            display: block;
                         }
-                        .minor-modal_body {
-                            label {
-                                margin: 0 15px;
-                                display: block;
-                            }
-                            .minor-modal_footer {
-                                height: 30px;
-                                line-height: 20px;
-                                text-align: right;
-                                margin-right: 20px;
-                            }
+                        .minor-modal_footer {
+                            height: 30px;
+                            line-height: 20px;
+                            text-align: right;
+                            margin-right: 20px;
                         }
                     }
                 }
-                
-
             }
+            
+
         }
     }
 }
