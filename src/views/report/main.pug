@@ -2,7 +2,7 @@ extends  ../cmm/layout/template
 block content
     div.report-root__container
         div.report-insert__container
-            button 가계부 등록
+            button#report-add__btn 가계부 등록
         div.report-situation__container
             div.situation-box__container
                 div.this-month-cash
@@ -45,42 +45,43 @@ block content
                                 li 수정
                                 li 삭제
 
-        script(type="javascript"). 
-            <div id="report-modal__container">
-                <div id="report-modal__header">
-                    <h3>{{title}}</h3>
-                    <h4 id="report-modal__close">X</h4>
-                </div>
-                <form>
-                    <div class="report-modal__body">
-                        <label> 분류 이름
-                            <input type="text" name="major_name" value readonly>
-                        </label>
-                        <label> 소스 이름
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                        <label> 소스2 이름
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                        <label> 내용 이름
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                        <label> 금액 이름
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                        <label> 메모 이름
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                        <label> 사진
-                            <input type="text" name="minor_name" value required>
-                        </label>
-                    </div>
-                    <div class="report-modal__footer">
-                        <button type="button" id="pen-major__add-btn">{{title}}</button>
-                        <button type="reset">취소하기</button>
-                    </div>
-                </form>
+            div#report-modal__territory.report-modal__territory
 
+        script(id="report-modal__template" type="text/x-handlebars-template"). 
+            <div id="report-modal__container">
+                    <div class="report-modal__header">
+                        <h3>{{title}}</h3>
+                        <h4 id="report-modal__close">X</h4>
+                    </div>
+                    <form>
+                        <div class="report-modal__body">
+                            <label> 분류 이름
+                                <input type="text" name="major_name" value readonly>
+                            </label>
+                            <label> 소스 이름
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                            <label> 소스2 이름
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                            <label> 내용 이름
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                            <label> 금액 이름
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                            <label> 메모 이름
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                            <label> 사진
+                                <input type="text" name="minor_name" value required>
+                            </label>
+                        </div>
+                        <div class="report-modal__footer">
+                            <button type="button" id="pen-major__add-btn">{{title}}</button>
+                            <button type="reset">취소하기</button>
+                        </div>
+                    </form>
             </div>
 
                        
