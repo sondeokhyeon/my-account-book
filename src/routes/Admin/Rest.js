@@ -1,11 +1,9 @@
 
 import express from 'express';
 import { db } from '../../middleware'
-import { sequelize } from '../../../database/models';
+import { sequelize } from '../../../database/models'
 
 const adminRestRouter = express.Router();
-
-
 
 adminRestRouter.get('/src-getdata', async (req, res) => {
     let srcs;
@@ -25,7 +23,6 @@ adminRestRouter.get('/src-getdata', async (req, res) => {
     })
     res.json(srcs);
 })
-
 
 adminRestRouter.get('/src-add',  async (req, res) => {
     let users;    

@@ -12,7 +12,8 @@ import mainRouter from './routes/Main/Router';
 import dbRouter from './routes/DBRouter';
 import AdminRenderRouter from './routes/Admin/Render';
 import AdminRestRouter from './routes/Admin/Rest';
-import reportRouter from './routes/Report/Router';
+import ReportRenderRouter from './routes/Report/Router';
+import ReportRestRouter from './routes/Report/Rest'
 
 //import { authenticateJwt, jwtz } from './passport'
 
@@ -47,11 +48,10 @@ app.use(session({
        {
         secret: process.env.HASHKEY,
         retries : 3,
-        ttl: 36000,
+        ttl: 600,
        }
    ),
 }));
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -60,11 +60,11 @@ import './passport'
 //app.use(authenticateJwt);
 //app.use(jwtz);
 
-// 
 app.use('/',        mainRouter); 
 app.use('/db',      dbRouter);
 app.use('/admin',   AdminRenderRouter);
 app.use('/af/',     AdminRestRouter);
-app.use('/report',  reportRouter);
+app.use('/report',  ReportRenderRouter);
+app.use('/rf/',     ReportRestRouter);
 
 export default app;

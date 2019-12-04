@@ -55,25 +55,40 @@ block content
                     </div>
                     <form>
                         <div class="report-modal__body">
-                            <label> 분류 이름
-                                <input type="text" name="major_name" value readonly>
+                            <label> 누가 썼니?
+                                <select id="source-handler" >
+                                </select>
                             </label>
                             <label> 소스 이름
-                                <input type="text" name="minor_name" value required>
+                                <select id="spen-first-handler">
+                                    <option  selected disabled>선택하시오</option>
+                                    <option value="지출">지출</option>
+                                    <option value="수입">수입</option>
+                                    <option value="이체">이체</option>
+                                </select>
+                                
                             </label>
                             <label> 소스2 이름
-                                <input type="text" name="minor_name" value required>
+                                <select id="spen-second-handler">
+                                    <option selected disabled value="소스분류">분류</option>
+                                </select>
+                            </label>
+                            <label id="spen-third-container" style="display:none;"> 소스3 
+                                <select id="spen-third-handler"></select>
+                            </label>
+                            <label> 날짜
+                                <input type="date" name="major_name" value readonly>
                             </label>
                             <label> 내용 이름
                                 <input type="text" name="minor_name" value required>
                             </label>
                             <label> 금액 이름
-                                <input type="text" name="minor_name" value required>
-                            </label>
-                            <label> 메모 이름
-                                <input type="text" name="minor_name" value required>
+                                <input type="number" name="minor_name" value required>
                             </label>
                             <label> 사진
+                                <input type="file" name="minor_name" value required>
+                            </label>
+                            <label> 메모 이름
                                 <input type="text" name="minor_name" value required>
                             </label>
                         </div>
