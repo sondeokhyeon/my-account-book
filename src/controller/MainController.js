@@ -33,8 +33,14 @@ export const post_signup = (req, res) => {
 
 export const get_login = (req, res) => {
     let errMsg = req.flash('error');
-    console.log(errMsg)
-    res.render('main/login', {msg: errMsg})
+    console.log('errMsg : ', errMsg)
+    if(req.user) {
+        res.redirect('/');
+        return false;
+    } else{
+        res.render('main/login', {msg: errMsg})
+        return false;
+    }
 }
 
 export const post_login =  passport.authenticate('local', {

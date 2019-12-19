@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
      }
   }, {});
   STP_ISMJ.associate = function(models) {
-
+    STP_ISMJ.hasMany(models.DT_DETAIL, {foreignKey: 'ISMJ_NO'})
   };
   return STP_ISMJ;
 };

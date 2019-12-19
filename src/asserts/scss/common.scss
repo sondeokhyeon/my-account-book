@@ -12,5 +12,19 @@ a {
     max-width: 1300px;
     min-width: 600px;
     margin: 40px auto 0 auto;
-    background-color: white;
+}
+.center {
+    text-align: center;
+}
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+.none {
+    display:none;
+}
+.active {
+    display: block;
 }

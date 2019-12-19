@@ -1,3 +1,30 @@
+@import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
+
+.btn-pointer {
+    cursor: pointer;
+}
+
+.w100 {
+    width:100px;
+    overflow: auto;
+    height: 18px;
+    line-height: 18px;
+}
+
+.w50 {
+    width: 50px;
+    overflow: auto;
+    height: 18px;
+    line-height: 18px;
+}
+
+.w200 {
+    width: 200px;
+    overflow: auto;
+    height: 18px;
+    line-height: 18px;
+}
+
 .report-root__container {
     max-width: 1200px;
     min-width: 600px;
@@ -5,92 +32,200 @@
     margin: 20px auto;
     .report-insert__container {
         position:fixed;
+        display: flex;
+        flex-direction: column;
     }
-    .report-situation__container {
+    .report_contents__container {
         max-width: 1000px;
         min-width: 500px;
-        height: 70px;
-        margin: 0 auto;
-        background-color:azure;
-    }
-    .report-contents__container {
-        max-width: 1000px;
-        min-width: 500px;
-        height: 87%;
-        margin: 0 auto;
-        background-color: aqua;
-        .contents-box__container {
-            .contents-option__container{
-                display:flex;
-                flex-direction:row;
-                justify-content: space-between;
-                width:100%;
-                background-color:green;
-                padding:10px 0px 10px 0px;
-                height: 20px;
-                .option-calender__container {
-                    padding-left: 10px;
-                }
-                .option-search__container {
-                    padding-right : 10px;
-                }
-           } 
-           .contents-section__container {
-                overflow: scroll;
-                height: 600px;
-                .contents-section-title__container, 
-                .contents-section-body__container {
-                    ul {
-                        display: flex;
-                        justify-content: space-around;
-                        li {
-                            display:inline-block;
-                            margin: 10px;
+        margin : 0 auto;
+        border : 1px solid #b7b7b7;
+        border-radius: 3px;
+        .report-situation__container {
+            display:flex;
+            border-bottom: 1px solid #2f2f2f;
+            .contents-box__container {
+                .contents-option__container{
+                    width:260px;
+                    padding:10px 0px 10px 0px;
+                    position: relative;
+                    background: #fff;
+                    .option-calender__container {
+                        display:flex;
+                        padding-left: 30px;
+                        span {
+                            line-height: 19px;
                         }
+                        .year_picker-container {
+                            width: 300px;
+                            height: 140px;
+                            background: #fff;
+                            position: absolute;
+                            left: 11px;
+                            top: 30px;
+                            border : 1px solid #b1b1b1;
+                            display:none;
+                            .year_picker_header {
+                                display: flex;
+                                justify-content: space-between;
+                                padding: 10px;
+                                border-bottom: 1px solid #b7b7b7;
+                                #year_picker_controller {
+                                    display: flex;
+                                    .year_title {
+                                        margin: 0px 10px;
+                                    }
+                                }
+                            }
+                            #year_picker_body {
+                                .picker-body__group {
+                                    display: flex;
+                                    div {
+                                        cursor: pointer;
+                                        height: 50px;
+                                        line-height: 50px;
+                                        margin: 0 auto;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+            .situation-box__container {
+                background-color:#fff;
+                display:flex;
+                width: 100%;
+                .status-container {
+                    width: 100%;
+                    display:flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    .status-box {
+                        font-size:18px;
+                        display: inline;
+                        flex-direction: inherit;
+                        margin-top : 10px;
                     }
                 }
             }
         }
-        .report-modal__territory {
-            position: fixed;
-            background-color: #0000004a;
-            width: 100vw;
-            height: 100vh;
-            left: 1px;
-            top: 1px;
-            display:none;
-            justify-content: center;
-            align-items: center;
-            #report-modal__container {
-                background-color: white;
-                width:350px;
-                .report-modal__header {
-                    height: 15px;
-                    padding:15px;
-                    display: flex;
-                    justify-content: space-between;
-                    border-bottom: 1px solid gray;
-                }
-                .report-modal__body{
-                    display: flex;
-                    flex-direction: column;
-                    margin: 10px 50px 10px 50px;
-                    label {
-                        display: flex;
-                        justify-content: space-between;
-                        margin-bottom: 10px;
-                        margin-top:10px;
+        .report-contents-body__container {
+            max-width: 1000px;
+            min-width: 500px;
+            height: 87%;
+            margin: 0 auto;
+            background-color: white;
+            .contents-section__container {
+                    overflow: scroll;
+                    height: 600px;
+                    .contents-section-title__container {
+                        ul {
+                            border-bottom : 1px solid #b7b7b7;
+                            li {
+                                text-align: center;
+                            }
+                        }
+                    }
+                    .contents-section-title__container, 
+                    .contents-section-body__container {
+                        margin: 0px 30px;
+                        position: relative;
+                        ul {
+                            display: flex;
+                            justify-content: space-around;
+                            border-bottom : 1px solid #b7b7b7;
+                            li {
+                                display:inline-block;
+                                margin: 10px 2px 10px 2px;
+                                clear: both;
+                                span {
+                                    margin: 0px 2px;
+                                }
+                                .comment-item {
+                                    position: absolute;
+                                    text-align: left;
+                                    height: 200px;
+                                    width: 400px;
+                                    right: 180px;
+                                    background-color: white;
+                                    border : 1px solid #b1b1b1;
+                                    display:none;
+                                }
+                                .photo-item {
+                                    position: absolute;
+                                    width: 400px;
+                                    right: 195px;
+                                    display:none;
+                                }
+                            }
+                        }
                     }
                 }
-                .report-modal__footer {
-                    border-top: 1px solid gray;
-                    height: 45px;
-                    line-height: 45px;
-                    text-align:right;
-                    padding-right:15px;
-                }
-            }   
         }
-    }
-}   
-
+        .report-modal__territory {
+                position: fixed;
+                background-color: #0000004a;
+                width: 100vw;
+                height: 100vh;
+                left: 1px;
+                top: 1px;
+                display:none;
+                justify-content: center;
+                align-items: center;
+                #report-modal__container {
+                    background-color: white;
+                    width:380px;
+                    .report-modal__header {
+                        height: 15px;
+                        padding:15px;
+                        display: flex;
+                        justify-content: space-between;
+                        border-bottom: 1px solid gray;
+                    }
+                    .report-modal__body{
+                        display: flex;
+                        flex-direction: column;
+                        margin: 10px 50px 10px 50px;
+                        div {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 10px;
+                            margin-top:10px;
+                        }
+                        #time-selector {
+                            justify-content: center;
+                            line-height: 20px;
+                            label {
+                                margin: 0px 20px;
+                            }
+                        }
+                        #spen-time-container {
+                            text-align:right;
+                            .main-title {
+                                position: relative;
+                                right:5px;
+                            }
+                            .sub-title {
+                                font-size:10px;
+                                line-height: 22px;
+                            }
+                            #report_date{
+                                width: 70px;
+                            }
+                            #report_time{
+                                width: 100px;
+                            }
+                        }
+                    }
+                    .report-modal__footer {
+                        border-top: 1px solid gray;
+                        height: 45px;
+                        line-height: 45px;
+                        text-align:right;
+                        padding-right:15px;
+                    }
+                }   
+            }
+        }
+    }   

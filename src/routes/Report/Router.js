@@ -1,8 +1,9 @@
 import express from 'express';
+import { loginChk } from '../../middleware';
 
 const RRroute = express.Router();
 
-RRroute.get('/', (req, res) => {
+RRroute.get('/', loginChk, (req, res) => {
     res.render('report/main')
 });
 

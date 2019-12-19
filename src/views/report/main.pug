@@ -3,48 +3,59 @@ block content
     div.report-root__container
         div.report-insert__container
             button#report-add__btn 가계부 등록
-        div.report-situation__container
-            div.situation-box__container
-                div.this-month-cash
-                    span 10000
-                div.this-month-card
-                    span 10000
-        div.report-contents__container
-            div.contents-box__container
-                div.contents-option__container
-                    div.option-calender__container
-                        input(type="text")
-                        | ~
-                        input(type="text")
-                    div.option-search__container
-                        input(type="text")
-                        button 검색
-                div.contents-section__container
-                    div.contents-section-title__container
-                        ul
-                            li 날짜
-                            li 분류
-                            li 소스 
-                            li 소스 
-                            li 내용
-                            li 금액
-                            li 메모
-                            li 사진
-                            li 수정
-                            li 삭제
-                    div.contents-section-body__container
-                            ul
-                                li 날짜
-                                li 분류
-                                li 소스 
-                                li 소스 
-                                li 내용
-                                li 금액
-                                li 메모
-                                li 사진
-                                li 수정
-                                li 삭제
+            button#report-add__btn 가계부 검색  
+        div.report_contents__container
+            div.report-situation__container
+                div.contents-box__container
+                    div.contents-option__container
+                        div.option-calender__container
+                            span 기준일&nbsp;
+                            input(type="text" name="year" id="refYearPicker" readonly)
+                            div.year_picker-container#year_picker-container
+                                div.year_picker_header
+                                    div &nbsp;
+                                    div#year_picker_controller
+                                        div.year_title#year_prev (-5) <
+                                        div.year_title#year_title 
+                                        div.year_title#year_next > (+5)
+                                    div#year_picker_close
+                                        h2 X
+                                div#year_picker_body
+                            select(name="month" id="ref_month")
+                                option(value="1") 1월
+                                option(value="2") 2월
+                                option(value="3") 3월
+                                option(value="4") 4월
+                                option(value="5") 5월
+                                option(value="6") 6월
+                                option(value="7") 7월
+                                option(value="8") 8월
+                                option(value="9") 9월
+                                option(value="10") 10월
+                                option(value="11") 11월
+                                option(value="12") 12월
+                div.situation-box__container
+                    div.status-container
+                        div#month-income.status-box
+                            span#month-income__title
+                            span#month-income__content
+                        div#month-spend.status-box
+                            span#month-spend__title
+                            span#month-spend__content
 
+            div.report-contents-body__container
+                    div.contents-section__container
+                        div.contents-section-title__container
+                            ul
+                                li.w100 날짜
+                                li.w100 분류
+                                li.w50 소스 
+                                li.w100 소스 
+                                li.w200 내용
+                                li.w100 금액
+                                li.w100 메모 / 사진
+                                li.w100 수정 / 삭제
+                        div.contents-section-body__container#contents-body__container
             div#report-modal__territory.report-modal__territory
 
         script(id="report-modal__template" type="text/x-handlebars-template"). 
@@ -53,57 +64,59 @@ block content
                         <h3>{{title}}</h3>
                         <h4 id="report-modal__close">X</h4>
                     </div>
-                    <form>
+                    <form id="report-modal__form" method="post", enctype="multipart/form-data">
                         <div class="report-modal__body">
-                            <label> 누가 썼니?
-                                <select id="source-handler" >
-                                </select>
-                            </label>
-                            <label> 소스 이름
-                                <select id="spen-first-handler">
-                                    <option  selected disabled>선택하시오</option>
+                            <div id="time-selector">
+                                <label><input type="radio" name="timerChk" class="timerChk" value="now">현재일시</label>
+                                <label><input type="radio" name="timerChk" class="timerChk" value="self">직접입력</label>
+                            </div>
+                            <div id="spen-time-container"> 
+                                <span class="main-title">날짜</span>
+                                <span class="sub-title">년/월/일</span>
+                                    <input type="text" id="report_date" value="" readonly>
+                                <span class="sub-title">시간</span> 
+                                    <input type="time" id="report_time" autocomplete="off" >
+                                <input type="hidden" name="datetime" id="report-datetime" value="">
+                            </div>
+                            <div> 사용처
+                                <select id="source-handler" name="src"></select>
+                            </div>
+                            <div> 대분류
+                                <select id="spen-first-handler" name="major">
+                                    <option selected disabled>선택하시오</option>
                                     <option value="지출">지출</option>
                                     <option value="수입">수입</option>
                                     <option value="이체">이체</option>
                                 </select>
-                                
-                            </label>
-                            <label> 소스2 이름
-                                <select id="spen-second-handler">
-                                    <option selected disabled value="소스분류">분류</option>
+                            </div>
+                            <div> 소분류
+                                <select id="spen-second-handler" name="minor">
+                                    <option selected disabled value>분류</option>
                                 </select>
-                            </label>
-                            <label id="spen-third-container" style="display:none;"> 소스3 
-                                <select id="spen-third-handler"></select>
-                            </label>
-                            <label> 날짜
-                                <input type="date" name="major_name" value readonly>
-                            </label>
-                            <label> 내용 이름
-                                <input type="text" name="minor_name" value required>
-                            </label>
-                            <label> 금액 이름
-                                <input type="number" name="minor_name" value required>
-                            </label>
-                            <label> 사진
-                                <input type="file" name="minor_name" value required>
-                            </label>
-                            <label> 메모 이름
-                                <input type="text" name="minor_name" value required>
-                            </label>
+                            </div>
+                            <div id="spen-third-container" style="display:none;"> 소분류 
+                                <select id="spen-third-handler" name="sminor">
+                                    <option selected disabled value>분류</option>
+                                </select>
+                            </div>
+                            <div> 상세내용
+                                <input type="text" name="contents" value >
+                            </div>
+                            <div> 금액 이름
+                                <input type="number" name="money" id="report_money" min="0" value>
+                            </div>
+                            <div> 메모
+                                <textarea id="comment" name="comment" cols="14" rows="1" style="resize:none;"></textarea>
+                            </div>
+                            <div> 사진
+                                <input type="file" name="" accept="image/*" id="upload-photo" value >
+                            </div>
                         </div>
                         <div class="report-modal__footer">
                             <button type="button" id="pen-major__add-btn">{{title}}</button>
-                            <button type="reset">취소하기</button>
+                            <button type="reset">재작성</button>
+                            <button type="button" id="report-modal__close-bottom">닫기</button>
                         </div>
                     </form>
             </div>
-
-                       
-            
-
-        
-
-
-
 

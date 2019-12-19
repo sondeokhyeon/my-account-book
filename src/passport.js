@@ -41,8 +41,8 @@ passport.serializeUser( (user, done) =>{
 
 passport.deserializeUser ( (users, done) => {
     const user = {
-        id : users.id,
-        name : users.name
+        no : users.USER_NO,
+        name : users.USER_NM
     }
     return done(null, user)
 });

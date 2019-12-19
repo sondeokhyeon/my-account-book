@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     DT_NO : DataTypes.INTEGER,
     FILE_ORINM: DataTypes.STRING,
-    FILE_lOGNM:DataTypes.STRING,
+    FILE_LOGNM:DataTypes.STRING,
+    FILE_PATH:DataTypes.STRING
   }, {});
   DT_FILE.associate = function(models) {
     DT_FILE.belongsTo(models.DT_DETAIL, {foreignKey: 'DT_NO'})
