@@ -9,7 +9,7 @@ block content
                 div.contents-box__container
                     div.contents-option__container
                         div.option-calender__container
-                            span 기준일&nbsp;
+                            h2 기준일&nbsp;
                             input(type="text" name="year" id="refYearPicker" readonly)
                             div.year_picker-container#year_picker-container
                                 div.year_picker_header
@@ -22,15 +22,15 @@ block content
                                         h2 X
                                 div#year_picker_body
                             select(name="month" id="ref_month")
-                                option(value="1") 1월
-                                option(value="2") 2월
-                                option(value="3") 3월
-                                option(value="4") 4월
-                                option(value="5") 5월
-                                option(value="6") 6월
-                                option(value="7") 7월
-                                option(value="8") 8월
-                                option(value="9") 9월
+                                option(value="01") 1월
+                                option(value="02") 2월
+                                option(value="03") 3월
+                                option(value="04") 4월
+                                option(value="05") 5월
+                                option(value="06") 6월
+                                option(value="07") 7월
+                                option(value="08") 8월
+                                option(value="09") 9월
                                 option(value="10") 10월
                                 option(value="11") 11월
                                 option(value="12") 12월
@@ -56,67 +56,113 @@ block content
                                 li.w100 메모 / 사진
                                 li.w100 수정 / 삭제
                         div.contents-section-body__container#contents-body__container
-            div#report-modal__territory.report-modal__territory
+            div.report-modal__territory#report-modal__territory
+                div.report-modal__background#report-modal__background
 
         script(id="report-modal__template" type="text/x-handlebars-template"). 
             <div id="report-modal__container">
-                    <div class="report-modal__header">
-                        <h3>{{title}}</h3>
-                        <h4 id="report-modal__close">X</h4>
+                <div class="report-modal__header">
+                    <h3>{{title}}</h3>
+                    <h4 id="report-modal__close">X</h4>
+                </div>
+                <form id="report-modal__form" method="post", enctype="multipart/form-data">
+                    <div id="report-modal__body" class="report-modal__body">
                     </div>
-                    <form id="report-modal__form" method="post", enctype="multipart/form-data">
-                        <div class="report-modal__body">
-                            <div id="time-selector">
-                                <label><input type="radio" name="timerChk" class="timerChk" value="now">현재일시</label>
-                                <label><input type="radio" name="timerChk" class="timerChk" value="self">직접입력</label>
-                            </div>
-                            <div id="spen-time-container"> 
-                                <span class="main-title">날짜</span>
-                                <span class="sub-title">년/월/일</span>
-                                    <input type="text" id="report_date" value="" readonly>
-                                <span class="sub-title">시간</span> 
-                                    <input type="time" id="report_time" autocomplete="off" >
-                                <input type="hidden" name="datetime" id="report-datetime" value="">
-                            </div>
-                            <div> 사용처
-                                <select id="source-handler" name="src"></select>
-                            </div>
-                            <div> 대분류
-                                <select id="spen-first-handler" name="major">
-                                    <option selected disabled>선택하시오</option>
-                                    <option value="지출">지출</option>
-                                    <option value="수입">수입</option>
-                                    <option value="이체">이체</option>
-                                </select>
-                            </div>
-                            <div> 소분류
-                                <select id="spen-second-handler" name="minor">
-                                    <option selected disabled value>분류</option>
-                                </select>
-                            </div>
-                            <div id="spen-third-container" style="display:none;"> 소분류 
-                                <select id="spen-third-handler" name="sminor">
-                                    <option selected disabled value>분류</option>
-                                </select>
-                            </div>
-                            <div> 상세내용
-                                <input type="text" name="contents" value >
-                            </div>
-                            <div> 금액 이름
-                                <input type="number" name="money" id="report_money" min="0" value>
-                            </div>
-                            <div> 메모
-                                <textarea id="comment" name="comment" cols="14" rows="1" style="resize:none;"></textarea>
-                            </div>
-                            <div> 사진
-                                <input type="file" name="" accept="image/*" id="upload-photo" value >
-                            </div>
-                        </div>
-                        <div class="report-modal__footer">
-                            <button type="button" id="pen-major__add-btn">{{title}}</button>
-                            <button type="reset">재작성</button>
-                            <button type="button" id="report-modal__close-bottom">닫기</button>
-                        </div>
-                    </form>
+                    <div class="report-modal__footer">
+                        <button type="button" id="pen-major__add-btn">{{title}}</button>
+                        <button type="reset">재작성</button>
+                        <button type="button" id="report-modal__close-bottom">닫기</button>
+                    </div>
+                </form>
             </div>
 
+        script(id="report-modal__insert-template" type="text/x-handlebars-template").
+            <div id="time-selector">
+                    <label><input type="radio" name="timerChk" class="timerChk" value="now">현재일시</label>
+                    <label><input type="radio" name="timerChk" class="timerChk" value="self">직접입력</label>
+            </div>
+            <div id="spen-time-container"> 
+                <span class="main-title">날짜</span>
+                <span class="sub-title">년/월/일</span>
+                    <input type="text" id="report_date" value="" readonly>
+                <span class="sub-title">시간</span> 
+                    <input type="time" id="report_time" autocomplete="off" >
+                <input type="hidden" name="datetime" id="report-datetime" value="">
+            </div>
+            <div> 사용처
+                <select id="source-handler" name="src"></select>
+            </div>
+            <div> 대분류
+                <select id="spen-first-handler" name="major">
+                    <option selected disabled>선택하시오</option>
+                    <option value="지출">지출</option>
+                    <option value="수입">수입</option>
+                    <option value="이체">이체</option>
+                </select>
+            </div>
+            <div> 소분류
+                <select id="spen-second-handler" name="minor">
+                    <option selected disabled value>분류</option>
+                </select>
+            </div>
+            <div id="spen-third-container" style="display:none;"> 소분류 
+                <select id="spen-third-handler" name="sminor">
+                    <option selected disabled value>분류</option>
+                </select>
+            </div>
+            <div> 상세내용
+                <input type="text" name="contents" id="contents" value >
+            </div>
+            <div> 금액 이름
+                <input type="number" name="money" id="report_money" min="0" value>
+            </div>
+            <div style="position: relative; height:50px;"> 메모
+                <textarea id="comment" name="comment" cols="14" rows="1" style="resize:none;"></textarea>
+            </div>
+            <div> 사진
+                <div id="formPhoto-container"> 
+                    <input type="file" name="" accept="image/*" id="upload-photo" value >
+                </div>
+            </div>
+
+        
+        script(id="report-modal__update-template" type="text/x-handlebars-template").
+            <div id="spen-time-container"> 
+               
+            </div>
+            <div> 사용처
+                <select id="source-handler" name="src"></select>
+            </div>
+            <div> 대분류
+                <select id="spen-first-handler" name="major">
+                    <option selected disabled>선택하시오</option>
+                    <option value="지출">지출</option>
+                    <option value="수입">수입</option>
+                    <option value="이체">이체</option>
+                </select>
+            </div>
+            <div> 소분류
+                <select id="spen-second-handler" name="minor">
+                    <option selected disabled value>분류</option>
+                </select>
+            </div>
+            <div id="spen-third-container" style="display:none;"> 소분류 
+                <select id="spen-third-handler" name="sminor">
+                    <option selected disabled value>분류</option>
+                </select>
+            </div>
+            <div> 상세내용
+                <input type="text" name="contents" id="contents" value >
+            </div>
+            <div> 금액 이름
+                <input type="number" name="money" id="report_money" min="0" value>
+            </div>
+            <div style="position: relative; height:50px;"> 메모
+                <textarea id="comment" name="comment" cols="14" rows="1" style="resize:none;"></textarea>
+            </div>
+            <div> 사진
+                <div id="formPhoto-container"> 
+                    <input type="file" name="" accept="image/*" id="upload-photo" value >
+                </div>
+            </div>
+            <input type="hidden" id="dno" name="dno" value='' readonly='readonly' >

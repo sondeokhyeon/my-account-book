@@ -47,7 +47,7 @@ ReportRestRouter.get('/datas', restLoginChk, async (req, res) => {
 
         ],
         order: [
-            [[sequelize.fn('date_format', sequelize.col('DT_DETAIL.createdAt'), '%Y-%m-%d'), 'DESC']],
+            [[sequelize.fn('date_format', sequelize.col('DT_DETAIL.createdAt'), '%y-%m-%d'), 'DESC']],
             ['ISMJ_MJ_NM', 'DESC']
         ]
     })
@@ -146,7 +146,7 @@ ReportRestRouter.get('/spend-sub-handler', async (req, res) => {
     }
 })
 
-ReportRestRouter.post('/spend', photoUploader.single('photo'), async (req, res) => {
+ReportRestRouter.post('/spen', photoUploader.single('photo'), async (req, res) => {
     const { body: {
         datetime
         , src
@@ -159,6 +159,7 @@ ReportRestRouter.post('/spend', photoUploader.single('photo'), async (req, res) 
     }
     } = req;
     try {
+        console.log(req.body)
         let ismjNo;
         if (sminor) {
             ismjNo = sminor;
@@ -190,12 +191,156 @@ ReportRestRouter.post('/spend', photoUploader.single('photo'), async (req, res) 
                 }
             })
 
-        //res.json('SUCESSS')
         res.json('success')
     } catch (err) {
         console.log(err)
         res.json('fail')
     }
 })
+
+ReportRestRouter.get('/:id/get', async (req, res) => {
+    const { params: { id } } = req;
+    let result = await db.DT_DETAIL.findOne({
+        raw: true,
+        where: {
+            DT_NO: id
+        },
+        attributes: [
+            [sequelize.fn('date_format', sequelize.col('DT_DETAIL.createdAt'), '%Y-%m-%d'), 'date'],
+            [sequelize.fn('date_format', sequelize.col('DT_DETAIL.createdAt'), '%Y-%m-%d %T'), 'datetime'],
+            'MONEY',
+            'ISMJ_NO',
+            'ISMJ_MJ_NM',
+            'COMMENT',
+            'CONTENTS',
+            'DT_NO'
+        ],
+        include: [{
+            model: db.DT_SRC,
+            attributes: [
+                'SRC_NAME',
+                'SRC_CATEGORY',
+                'IS_CREDIT',
+                'SRC_MONEY',
+                'SRC_BANK'
+            ]
+        }, {
+            model: db.STP_ISMJ,
+            attributes: [
+                'ISMJ_MN_NM',
+                'ISMJ_MS_NM',
+                'ISMJ_TYPE'
+            ],
+        }, {
+            model: db.DT_FILE,
+            attributes: [
+                'FILE_ORINM',
+                'FILE_PATH',
+                'FILE_NO'
+            ]
+        }]
+    })
+    res.json(result)
+})
+
+ReportRestRouter.post('/:id/update', (req, res) => {
+    try {
+        const { body: {
+            src
+            , major
+            , minor
+            , sminor
+            , contents
+            , money
+            , comment
+            , dno
+        } } = req;
+        let ismjNo;
+        if (sminor) {
+            ismjNo = sminor;
+        } else {
+            ismjNo = minor;
+        }
+        db.DT_DETAIL.update({
+            SRC_NO: src,
+            MONEY: money,
+            CONTENTS: contents,
+            ISMJ_NO: ismjNo,
+            ISMJ_MJ_NM: major,
+            COMMENT: comment,
+        }, {
+            where: { DT_NO: dno }
+        })
+        res.json('success')
+    } catch (err) {
+        console.log(err)
+        res.json('fail')
+    }
+})
+
+
+ReportRestRouter.delete('/:id/delete', async (req, res) => {
+    const { params: { id } } = req;
+    try {
+        let item = await db.DT_FILE.findOne({
+            raw: true,
+            attributes: ['FILE_NO'],
+            where: { DT_NO: id },
+        })
+        if (item) {
+            await db.DT_FILE.destroy({
+                raw: true,
+                where: { FILE_NO: item.FILE_NO }
+            })
+        }
+        await db.DT_DETAIL.destroy({
+            raw: true,
+            where: { DT_NO: id }
+        })
+        res.json('success')
+    } catch (err) {
+        res.json('fail')
+    }
+})
+
+ReportRestRouter.get('/:no/cmtget', async (req, res) => {
+    const { params: { no } } = req;
+    const data = await db.DT_DETAIL.findOne({
+        raw: true,
+        attributes: ['COMMENT'],
+        where: {
+            DT_NO: no
+        }
+    })
+    res.json(data)
+});
+
+ReportRestRouter.put('/:no/cmtput', async (req, res) => {
+    const { body: { cont }, params: { no } } = req;
+    try {
+        await db.DT_DETAIL.update(
+            { COMMENT: cont },
+            { where: { DT_NO: no } }
+        );
+        res.json('success')
+    } catch (err) {
+        console.log(err)
+        res.json('fail')
+    }
+});
+
+ReportRestRouter.delete('/:id/photodel', async (req, res) => {
+    const { params: { id } } = req;
+    try {
+        await db.DT_FILE.destroy({
+            raw: true,
+            where: { FILE_NO: id }
+        })
+        res.json('success')
+    } catch (err) {
+        res.json('fail')
+    }
+})
+
 
 export default ReportRestRouter;

@@ -1,9 +1,9 @@
 import { ModalHandler } from './report/modal'
-import { reportHeaderInit } from './report/data'
+import { reportHeaderInit } from './report/data/data'
 
-const {pathname} = location
+const { pathname } = location
 
-if(pathname.split('/')[1] === 'report') {
+if (pathname.split('/')[1] === 'report') {
     reportHeaderInit()
     ModalHandler.init()
 }

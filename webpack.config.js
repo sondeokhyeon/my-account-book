@@ -10,8 +10,8 @@ const config = {
   mode: MODE,
   entry: ["@babel/polyfill", ENTRY_JS, ENTRY_SCSS],
   output: {
-    path : OUTPUT_DIR,
-    filename : "[name].js"
+    path: OUTPUT_DIR,
+    filename: "[name].js"
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -23,9 +23,10 @@ const config = {
       test: /\.js$/,
       use: [{
         loader: 'babel-loader',
-      }]
+        query: { compact: false }
+      },]
     }, {
-      test:/\.scss$/,
+      test: /\.scss$/,
       use: [
         MiniCssExtractPlugin.loader,
         "css-loader",

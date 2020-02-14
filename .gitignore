@@ -10,3 +10,7 @@ sessions/
 uploads
 static
 package-lock.json
+.DS_Store
+.dockerignore
+docker-compose.yml
+Dockerfile

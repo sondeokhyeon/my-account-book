@@ -23,11 +23,14 @@ export const ModalHandler = {
         ModalHandler.show();
     },
     show: () => {
-        document.getElementById('report-add__btn').addEventListener('click', () => {
+        getId('report-add__btn').addEventListener('click', () => {
+            let formTemplate = handlebars.compile(document.getElementById('report-modal__insert-template').innerHTML);
             let template = handlebars.compile(document.getElementById('report-modal__template').innerHTML);
             let data = { title: '등록하기' }
-            document.getElementById('report-modal__territory').innerHTML = template(data)
-            document.getElementById('report-modal__territory').style.display = 'flex'
+            getId('report-modal__territory').innerHTML = '<div class="report-modal__background" id="report-modal__background"></div>';
+            getId('report-modal__territory').innerHTML += template(data);
+            getId('report-modal__body').innerHTML = formTemplate();
+            getId('report-modal__territory').style.display = 'flex';
             ModalHandler.timeCheck();
 
             ModalHandler.close();
@@ -39,6 +42,9 @@ export const ModalHandler = {
         })
     },
     close: () => {
+        getId('report-modal__background').addEventListener('click', () => {
+            getId('report-modal__territory').style.display = 'none';
+        })
         getId('report-modal__close').addEventListener('click', () => {
             getId('report-modal__territory').style.display = 'none';
         })
@@ -47,7 +53,7 @@ export const ModalHandler = {
         })
     },
     sourceHandler: () => {
-        const srcContainer = document.getElementById('source-handler');
+        const srcContainer = getId('source-handler');
         const { origin } = location
         axios.get(origin + '/rf/sources')
             .then(result => {
@@ -57,48 +63,11 @@ export const ModalHandler = {
             })
     },
     spendHandler: () => {
-        let first = document.getElementById('spen-first-handler')
-        let second = document.getElementById('spen-second-handler')
-        let third = document.getElementById('spen-third-handler')
-        const { origin } = location;
-
+        const first = getId('spen-first-handler')
+        const second = getId('spen-second-handler')
+        const third = getId('spen-third-handler')
         first.addEventListener('change', (event) => {
-            if (event.target.selectedOptions[0].value === '지출') {
-                document.getElementById('spen-third-container').style.display = 'flex'
-                second.addEventListener('change', (event) => {
-                    axios.get(origin + '/rf/spend-sub-handler', {
-                        params: {
-                            sort: event.target.selectedOptions[0].value
-                        }
-                    })
-                        .then(result => {
-                            third.innerHTML = "<option selected disabled >분류</option>"
-                            Array.from(result.data).map(item => {
-                                third.innerHTML += `<option value=${item.ISMJ_NO}>${item.ISMJ_MS_NM}</option>`
-                            })
-                        })
-                }, false);
-
-            } else {
-                document.getElementById('spen-third-container').style.display = 'none'
-            }
-
-            second.innerHTML = '';
-            axios.get(origin + '/rf/spend-first-handler', {
-                params: {
-                    sort: first.value
-                }
-            })
-                .then(result => {
-                    second.innerHTML = "<option selected disabled >분류</option>"
-                    Array.from(result.data).map(item => {
-                        if (item.ISMJ_NO) {
-                            second.innerHTML += `<option value=${item.ISMJ_NO}>${item.ISMJ_MN_NM}</option>`
-                        } else {
-                            second.innerHTML += `<option value=${item.ISMJ_MN_NM}>${item.ISMJ_MN_NM}</option>`
-                        }
-                    })
-                })
+            ModalHandler.spendSelectHandler(event.target.selectedOptions[0].value, first, second, third)
         }, false);
     },
     timeAfterEventCheck: () => {
@@ -128,15 +97,16 @@ export const ModalHandler = {
     commentEventHandler: () => {
         const comment = getId('comment')
         comment.addEventListener('focus', (event) => {
-            comment.style.position = 'fixed'
+            comment.style.position = 'absolute'
             comment.style.width = '400px'
             comment.style.height = '200px'
+            comment.style.left = '107px'
             comment.style.overflow = 'scroll'
         })
         comment.addEventListener('focusout', () => {
             comment.style.position = ''
-            comment.style.width = '103px'
-            comment.style.height = '13px'
+            comment.style.width = '168px'
+            comment.style.height = '50px'
         })
     },
     imageUploadHadnler: () => {
@@ -148,7 +118,7 @@ export const ModalHandler = {
                 img => {
                     img.toBlob(blob => {
                         const createFile = new File([blob], image.name)
-                        var formData = new FormData(document.getElementById('report-modal__form'));
+                        var formData = new FormData(getId('report-modal__form'));
                         formData.append('photo', createFile)
                         formClosure.setForm(formData);
                     }, fileType)
@@ -185,14 +155,13 @@ export const ModalHandler = {
         getId('pen-major__add-btn').addEventListener('click', (event) => {
             if (ModalHandler.submitVaildate() === true) {
                 if (confirm('등록하시겠소?') === true) {
-
                     if (formClosure.getForm() === undefined) {
                         formData = new FormData(form)
                     } else {
                         formData = formClosure.getForm()
                     }
-
-                    axios.post(location.origin + '/rf/spend', formData)
+                    console.log(formData)
+                    axios.post('/rf/spen', formData, { headers: { 'Content-Type': 'application/json' } })
                         .then(result => {
                             if (result.data === 'success') {
                                 if (confirm('이 창을 닫을까요?\n추가로 입력하려면 취소를 눌러요') === true) {
@@ -209,5 +178,48 @@ export const ModalHandler = {
             }
             return false;
         })
-    }
-}
+    },
+    spendSelectHandler: (item, first, second, third) => {
+        if (item === '지출') {
+            getId('spen-third-container').style.display = 'flex'
+            second.addEventListener('change', async (event) => {
+                ModalHandler.thirdOptionHandler(event.target.value, third)
+            }, false);
+        } else {
+            getId('spen-third-container').style.display = 'none'
+        }
+        ModalHandler.secondOptionHandler(first, second)
+    }, // spendSelectHandler
+
+    secondOptionHandler: async (first, second) => {
+        second.innerHTML = '';
+        await axios.get(origin + '/rf/spend-first-handler', {
+            params: {
+                sort: first.value
+            }
+        }).then(result => {
+            second.innerHTML = "<option selected disabled >분류</option>"
+            Array.from(result.data).map(item => {
+                if (item.ISMJ_NO) {
+                    second.innerHTML += `<option value=${item.ISMJ_NO}>${item.ISMJ_MN_NM}</option>`
+                } else {
+                    second.innerHTML += `<option value=${item.ISMJ_MN_NM}>${item.ISMJ_MN_NM}</option>`
+                }
+            })
+        }) //then
+    }, // secondOptionHandler
+
+    thirdOptionHandler: async (value, third) => {
+        await axios.get(origin + '/rf/spend-sub-handler', {
+            params: {
+                sort: value
+            }
+        }).then(result => {
+            third.innerHTML = "<option selected disabled >분류</option>"
+            Array.from(result.data).map(item => {
+                third.innerHTML += `<option value=${item.ISMJ_NO}>${item.ISMJ_MS_NM}</option>`
+            })
+        })
+    }//thirdOptionHandler
+} // ModalHandler
+

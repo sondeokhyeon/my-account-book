@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import bodyparser from 'body-parser'
 import mogran from 'morgan';
 import helmet from 'helmet'
 import session from 'express-session';
@@ -28,8 +27,8 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(cookieparser());
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(bodyparser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
     secret: process.env.HASHKEY,
