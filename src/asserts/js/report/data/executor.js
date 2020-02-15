@@ -2,6 +2,44 @@ import { getId, formSerialize } from '../cmm'
 import axios from "axios"
 import handlebars from 'handlebars';
 import { ModalHandler } from '../modal'
+import loadImage from "blueimp-load-image"
+
+const closure = function () {
+    const __form = '';
+    return {
+        setForm: function (formData) {
+            this.__form = formData;
+        },
+        getForm: function () {
+            return this.__form;
+        }
+    }
+}
+
+let formClosure = new closure();
+
+const imageUploadHadnler = () => {
+    getId('upload-photo').onchange = (e) => {
+        console.log('123')
+        const image = e.target.files[0];
+        const fileType = image.type;
+        loadImage(
+            image,
+            img => {
+                img.toBlob(blob => {
+                    const createFile = new File([blob], image.name)
+                    var formData = new FormData(getId('report-modal__form'));
+                    formData.append('photo', createFile)
+                    formClosure.setForm(formData);
+                }, fileType)
+            },
+            {
+                maxWidth: 1024,
+                orientation: true
+            }
+        )
+    }
+}
 
 export const dataModify = (id) => {
     axios
@@ -20,7 +58,7 @@ export const dataModify = (id) => {
             ModalHandler.sourceHandler();
             ModalHandler.spendHandler();
             ModalHandler.commentEventHandler();
-            ModalHandler.imageUploadHadnler();
+            imageUploadHadnler();
             dataSetup(result.data);
             dataUpdateHandler();
         })
@@ -85,10 +123,15 @@ const dataSetup = (res) => {
 
 const dataUpdateHandler = () => {
     const form = getId('report-modal__form');
+    let formData = '';
     getId('pen-major__add-btn').addEventListener('click', (event) => {
         if (confirm('수정하시겠소?') === true) {
-            var data = formSerialize(form);
-            axios.post(`/rf/${getId('dno').value}/update`, data)
+            if (formClosure.getForm() === undefined) {
+                formData = new FormData(form)
+            } else {
+                formData = formClosure.getForm()
+            }
+            axios.post(`/rf/${getId('dno').value}/update`, formData)
                 .then(result => {
                     if (result.data === 'success') {
                         alert('수정되었어요')

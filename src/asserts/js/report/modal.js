@@ -111,6 +111,7 @@ export const ModalHandler = {
     },
     imageUploadHadnler: () => {
         getId('upload-photo').onchange = (e) => {
+            console.log('123')
             const image = e.target.files[0];
             const fileType = image.type;
             loadImage(
@@ -160,7 +161,6 @@ export const ModalHandler = {
                     } else {
                         formData = formClosure.getForm()
                     }
-                    console.log(formData)
                     axios.post('/rf/spen', formData, { headers: { 'Content-Type': 'application/json' } })
                         .then(result => {
                             if (result.data === 'success') {

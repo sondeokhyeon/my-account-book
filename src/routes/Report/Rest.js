@@ -159,7 +159,6 @@ ReportRestRouter.post('/spen', photoUploader.single('photo'), async (req, res) =
     }
     } = req;
     try {
-        console.log(req.body)
         let ismjNo;
         if (sminor) {
             ismjNo = sminor;
@@ -243,7 +242,7 @@ ReportRestRouter.get('/:id/get', async (req, res) => {
     res.json(result)
 })
 
-ReportRestRouter.post('/:id/update', (req, res) => {
+ReportRestRouter.post('/:id/update', photoUploader.single('photo'), async (req, res) => {
     try {
         const { body: {
             src
@@ -261,7 +260,8 @@ ReportRestRouter.post('/:id/update', (req, res) => {
         } else {
             ismjNo = minor;
         }
-        db.DT_DETAIL.update({
+        const { file } = req;
+        await db.DT_DETAIL.update({
             SRC_NO: src,
             MONEY: money,
             CONTENTS: contents,
@@ -270,7 +270,16 @@ ReportRestRouter.post('/:id/update', (req, res) => {
             COMMENT: comment,
         }, {
             where: { DT_NO: dno }
-        })
+        }).then(() => {
+            if (file) {
+                db.DT_FILE.create({
+                    DT_NO: dno,
+                    FILE_ORINM: file.originalname,
+                    FILE_LOGNM: file.filename,
+                    FILE_PATH: file.path
+                })
+            }
+        });
         res.json('success')
     } catch (err) {
         console.log(err)
