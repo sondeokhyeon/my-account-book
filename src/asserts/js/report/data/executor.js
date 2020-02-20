@@ -1,4 +1,4 @@
-import { getId, formSerialize } from '../cmm'
+import { getId } from '../../cmm'
 import axios from "axios"
 import handlebars from 'handlebars';
 import { ModalHandler } from '../modal'
@@ -20,7 +20,6 @@ let formClosure = new closure();
 
 const imageUploadHadnler = () => {
     getId('upload-photo').onchange = (e) => {
-        console.log('123')
         const image = e.target.files[0];
         const fileType = image.type;
         loadImage(

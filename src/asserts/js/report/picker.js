@@ -1,21 +1,21 @@
-import { getId } from "./cmm";
+import { getId } from "../cmm";
 
 const pickerEvent = () => {
     yearPickerRender(new Date(event.target.innerText))
     getId('refYearPicker').setAttribute('value', event.target.innerText)
     pickerClose()
-}   
+}
 
 const pickerClose = () => {
     document.getElementById('year_picker-container').style.display = 'none';
 }
 
 const yearPickerRender = (today) => {
-    const date = today 
+    const date = today
     let container = getId('year_picker_body');
     let thisYear = date.getFullYear();
-        getId('year_title').innerText = thisYear;
-    if(today === thisYear.toString() ) {
+    getId('year_title').innerText = thisYear;
+    if (today === thisYear.toString()) {
         return false;
     } else {
         container.innerText = '';
@@ -23,7 +23,7 @@ const yearPickerRender = (today) => {
     let startYear = date.getFullYear() - 4;
     let body = '';
     let flag = 0;
-    for(let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
         body = document.createElement('div')
         body.classList.add('picker-body__group')
         for (let x = 0; x < 3; x++) {

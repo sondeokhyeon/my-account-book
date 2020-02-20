@@ -1,7 +1,7 @@
 import flatpickr from "flatpickr";
 import handlebars, { create } from 'handlebars';
 import axios from 'axios';
-import { getId } from "./cmm";
+import { getId } from "../cmm";
 import loadImage from "blueimp-load-image"
 
 const closure = function () {

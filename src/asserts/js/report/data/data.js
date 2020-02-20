@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { library, dom } from "@fortawesome/fontawesome-svg-core"
 import { faTrashAlt, faEdit, faCommentAlt, faImage } from "@fortawesome/free-solid-svg-icons"
-import { getId, commaSetup } from "../cmm";
+import { getId, commaSetup } from "../../cmm";
 import { dataModify, dataDelete } from './executor'
 import { yearPickerInit } from "../picker"
 

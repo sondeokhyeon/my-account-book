@@ -5,23 +5,23 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
-      primaryKey : true,
+      primaryKey: true,
     },
     SRC_NAME: DataTypes.STRING,
     SRC_BANK: DataTypes.STRING,
-    SRC_CATEGORY : DataTypes.BOOLEAN,
-    SRC_MONEY:DataTypes.INTEGER,
+    SRC_CATEGORY: DataTypes.CHAR,
+    SRC_MONEY: DataTypes.INTEGER,
     USER_NO: DataTypes.INTEGER,
-    IS_CREDIT : DataTypes.BOOLEAN,
+    IS_CREDIT: DataTypes.BOOLEAN,
     IS_USE: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     },
-    COMMNET:DataTypes.STRING
+    COMMNET: DataTypes.STRING
   }, {});
-  DT_SRC.associate = function(models) {
-    DT_SRC.hasMany(models.DT_DETAIL, {foreignKey:'SRC_NO'})
-    DT_SRC.belongsTo(models.SDT_USER, {foreignKey: 'USER_NO'})
+  DT_SRC.associate = function (models) {
+    DT_SRC.hasMany(models.DT_DETAIL, { foreignKey: 'SRC_NO' })
+    DT_SRC.belongsTo(models.SDT_USER, { foreignKey: 'USER_NO' })
   };
   return DT_SRC;
 };

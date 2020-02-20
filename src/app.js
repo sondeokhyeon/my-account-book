@@ -9,10 +9,10 @@ import sessionFileStore from 'session-file-store'
 import flash from 'connect-flash'
 import mainRouter from './routes/Main/Router';
 import dbRouter from './routes/DBRouter';
-import AdminRenderRouter from './routes/Admin/Render';
-import AdminRestRouter from './routes/Admin/Rest';
-import ReportRenderRouter from './routes/Report/Router';
-import ReportRestRouter from './routes/Report/Rest'
+import AdminRouter from './routes/Admin/Router';
+import AdminApi from './routes/Admin/Api';
+import ReportRouter from './routes/Report/Router';
+import ReportAPI from './routes/Report/Rest'
 
 //import { authenticateJwt, jwtz } from './passport'
 
@@ -58,9 +58,9 @@ import './passport'
 
 app.use('/', mainRouter);
 app.use('/db', dbRouter);
-app.use('/admin', AdminRenderRouter);
-app.use('/af/', AdminRestRouter);
-app.use('/report', ReportRenderRouter);
-app.use('/rf/', ReportRestRouter);
+app.use('/admin', AdminRouter);
+app.use('/af/', AdminApi);
+app.use('/report', ReportRouter);
+app.use('/rf/', ReportAPI);
 
 export default app;

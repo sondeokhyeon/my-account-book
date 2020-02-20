@@ -24,44 +24,43 @@ block content
                 //-     button(type="button") 수정하기 
                 //-     button(type="button") 삭제하기 
         div#modal-container
-    script(id="modal-add__partial" type="text/x-handlebars-template"). 
-        <label class="body-label">카드/계좌
+    script(id="modal-major-add__partial" type="text/x-handlebars-template"). 
+        <label class="body-label">현금/계좌
             <label> 
-                <input type="radio" required="required" name="category" value="1" id="category_one"/>계좌
+                <input type="radio" required="required" name="category" value="o" id="category_one"/>현금
             </label>
             <label> 
-                <input type="radio" required="required" name="category" value="0" id="category_two"/>카드
+                <input type="radio" required="required" name="category" value="c" id="category_two"/>계좌
             </label>
-        </label>
-        <label class="body-label">신용카드/체크카드
-            <label> 
-                <input type="radio" required="required" name="is_credit" value="0" id="credit_one"/>체크카드
-            </label>
-            <label> 
-                <input type="radio" required="required" name="is_credit" value="1" id="credit_two"/>신용카드
-            </label>
-        </label>
-        <label class="body-label">누가쓰니?
-            <select name="user_no" required="required" id="user_no">
-                <option hidden="hidden">선택하시오</option>
-            </select>
+            <input type="hidden"  name="srcNo" value="{{info.SRC_NO}}" readonly>
         </label>
 
-    script(id="modal-modify__partial" type="text/x-handlebars-template"). 
-        <label class="body-label">카드/계좌
-            <label> 
-                <input type="text" disabled value="{{creditChk IS_CREDIT}}"/>
-            </label>
-        </label>
+
+    script(id="modal-minor-add__partial" type="text/x-handlebars-template").
         <label class="body-label">신용카드/체크카드
             <label> 
-                <input type="text" disabled value="{{categoryChk SRC_CATEGORY}}"/>
+                <input type="radio" required="required" name="is_credit" value="h" id="credit_one"/>체크카드
             </label>
-        </label>
-        <label class="body-label">누가쓰니?
-                <input type="text" disabled value="{{info.SDT_USER.USER_NM}}">
-        </label>
-                <input type="hidden"  name="srcNo" value="{{info.SRC_NO}}" readonly>
+            <label> 
+                <input type="radio" required="required" name="is_credit" value="r" id="credit_two"/>신용카드
+            </label>
+        </label>    
+
+    //- script(id="modal-modify__partial" type="text/x-handlebars-template"). 
+    //-     <label class="body-label">카드/계좌
+    //-         <label> 
+    //-             <input type="text" disabled value="{{creditChk IS_CREDIT}}"/>
+    //-         </label>
+    //-     </label>
+    //-     <label class="body-label">신용카드/체크카드
+    //-         <label> 
+    //-             <input type="text" disabled value="{{categoryChk SRC_CATEGORY}}"/>
+    //-         </label>
+    //-     </label>
+    //-     <label class="body-label">누가쓰니?
+    //-             <input type="text" disabled value="{{info.SDT_USER.USER_NM}}">
+    //-     </label>
+    //-             <input type="hidden"  name="srcNo" value="{{info.SRC_NO}}" readonly>
 
     script(id="src-main__modal" type="text/x-handlebars-template").
         <div class="soruce-add__modal" id="source-modals">
@@ -72,18 +71,22 @@ block content
                 </div>
                 <div class="modal-body">
                     <form action="" method="post" id="src-form">
-                        <label class="body-label">카드/계좌 이름
+                        <label class="body-label">별칭<br>
+                            (ex 빨간카드 파란카드)
                             <input type="text" required="required" name="name" value='{{info.SRC_NAME}}' id="src_name"/>
                         </label>
-                        <label class="body-label">은행 이름
-                            <input type="text" required="required" name="bank" value='{{info.SRC_BANK}}' id="src_bank"/>
-                        </label>
-                        <label class="body-label">초기 금액
-                            <input type="text" required="required" name="money" value='{{info.SRC_MONEY}}' id="src_money"/>
+                        <label class="body-label">누가쓰니?
+                            <select name="user_no" required="required" id="user_no">
+                                <option hidden="hidden">선택하시오</option>
+                            </select>
                         </label>
                         {{#> subForm}}
                             <span style="color:red; font-weight:bold;">ERROR!</span>
                         {{/ subForm}}
+                        <span id="bank-name__container"></span>
+                        <label class="body-label">초기 금액
+                            <input type="text" required="required" name="money" value='{{info.SRC_MONEY}}' id="src_money"/>
+                        </label>
                         <label class="body-label">메모
                             <input type="text" name="comment" id="comment" value='{{info.COMMENT}}'/>
                         </label>
@@ -99,6 +102,7 @@ block content
                 <span>{{SRC_NAME}}</span>
                 <span>{{SRC_BANK}}</span>
                 <span>{{categoryChk SRC_CATEGORY}}</span>
+                <span>{{SRC_MONEY}}</span>
                 <span>{{[SDT_USER.USER_NM]}}</span>
                 <span>{{creditChk IS_CREDIT}}</span>
                 <span>{{COMMNET}}</span>
