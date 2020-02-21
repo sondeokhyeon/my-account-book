@@ -7,12 +7,20 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    SRC_NAME: DataTypes.STRING,
     SRC_BANK: DataTypes.STRING,
-    SRC_CATEGORY: DataTypes.CHAR,
+    SRC_NAME: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    SRC_CNAME: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    SRC_MJCG: DataTypes.CHAR,
     SRC_MONEY: DataTypes.INTEGER,
     USER_NO: DataTypes.INTEGER,
-    IS_CREDIT: DataTypes.BOOLEAN,
+    IS_CREDIT: DataTypes.CHAR,
     IS_USE: {
       type: DataTypes.BOOLEAN,
       defaultValue: true

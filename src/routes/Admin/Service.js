@@ -1,8 +1,9 @@
 import {
     SRCFindAll,
+    SRCFindAllNoNm,
     SRCFindOne,
-    SRCInsert,
-    SRCModifyData
+    SRCMJInsert,
+    SRCMJModifyData
 } from '../../db/DT_SRC'
 
 const sucesssChk = (func) => {
@@ -16,18 +17,30 @@ const sucesssChk = (func) => {
         })
 }
 
-export const SRCFindAllService = () => {
-    return SRCFindAll().catch(err => { console.log(err) })
+export const SRCFindAllService = async () => {
+    let major = [], minor = [];
+    await SRCFindAll().map((item) => {
+        if (item.SRC_MJCG === 'a') {
+            minor.push(item);
+        } else {
+            major.push(item);
+        }
+    })
+    return { major, minor }
 }
 
-export const SRCInsertService = (body) => {
-    return sucesssChk(SRCInsert(body))
+export const SRCFindAllNoNmService = () => {
+    return SRCFindAllNoNm().catch(err => { console.log(err) })
+}
+
+export const SRCMJInsertService = (body) => {
+    return sucesssChk(SRCMJInsert(body))
 }
 
 export const SRCFindOneService = (srcNo) => {
     return SRCFindOne(srcNo).catch(err => { console.log(err) })
 }
 
-export const SRCModifyDataService = (body) => {
-    return sucesssChk(SRCModifyData(body))
+export const SRCMJModifyDataService = (body) => {
+    return sucesssChk(SRCMJModifyData(body))
 }

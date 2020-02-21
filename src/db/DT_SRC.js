@@ -11,20 +11,10 @@ export const SRCFindAll = () => {
     })
 }
 
-export const SRCInsert = (body) => {
-    const { name,
-        bank,
-        category,
-        money,
-        user_no,
-        comment } = body
-    return db.DT_SRC.create({
-        SRC_NAME: name,
-        SRC_BANK: bank,
-        SRC_CATEGORY: category,
-        SRC_MONEY: money,
-        USER_NO: user_no,
-        COMMENT: comment
+export const SRCFindAllNoNm = () => {
+    return db.SDT_USER.findAll({
+        raw: true,
+        attributes: ['USER_NO', 'USER_NM']
     })
 }
 
@@ -40,19 +30,46 @@ export const SRCFindOne = (srcNo) => {
     })
 }
 
-export const SRCModifyData = async (body) => {
+export const SRCMJInsert = (body) => {
+    let { name,
+        cname,
+        bank,
+        mjcg,
+        money,
+        is_credit,
+        user_no,
+        comment,
+    } = body
+    if (!cname) {
+        cname = '';
+    }
+    return db.DT_SRC.create({
+        SRC_NAME: name,
+        SRC_CNAME: cname,
+        SRC_BANK: bank,
+        SRC_MJCG: mjcg,
+        SRC_MONEY: money,
+        IS_CREDIT: is_credit,
+        USER_NO: user_no,
+        COMMENT: comment
+    })
+}
+
+export const SRCMJModifyData = async (body) => {
     const { name,
         bank,
-        category,
+        mjcg,
         money,
         user_no,
+        is_credit,
         comment,
         srcNo } = body
     return db.DT_SRC.update({
         SRC_NAME: name,
         SRC_BANK: bank,
-        SRC_CATEGORY: category,
+        SRC_MJCG: mjcg,
         SRC_MONEY: money,
+        IS_CREDIT: is_credit,
         USER_NO: user_no,
         COMMENT: comment
     }, {

@@ -11,6 +11,9 @@
         max-width: 1000px;
         margin: 0 auto;
     }
+    .source-body {
+        display:flex;
+    }
     .soruce-add__modal {
         display:none;
         position: absolute;

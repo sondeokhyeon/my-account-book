@@ -3,9 +3,10 @@ import express from 'express';
 import { db, sequelize } from '../../cmm/db'
 import {
     SRCFindAllService,
-    SRCInsertService,
+    SRCFindAllNoNmService,
     SRCFindOneService,
-    SRCModifyDataService
+    SRCMJInsertService,
+    SRCMJModifyDataService,
 } from './Service'
 const adminRestRouter = express.Router();
 
@@ -13,9 +14,13 @@ adminRestRouter.get('/src-getdata', async (req, res) => {
     res.json(await SRCFindAllService());
 })
 
+adminRestRouter.get('/src-add', async (req, res) => {
+    res.json(await SRCFindAllNoNmService())
+})
+
 adminRestRouter.post('/src-add', async (req, res) => {
     const { body } = req;
-    res.json(await SRCInsertService(body))
+    res.json(await SRCMJInsertService(body))
 })
 
 adminRestRouter.get('/src-modify', async (req, res) => {
@@ -25,24 +30,7 @@ adminRestRouter.get('/src-modify', async (req, res) => {
 
 adminRestRouter.post('/src-modify', async (req, res) => {
     const { body } = req;
-    res.json(await SRCModifyDataService(body))
-})
-
-adminRestRouter.get('/src-add', async (req, res) => {
-    let users;
-    await db.SDT_USER.findAll({
-        raw: true,
-        attributes: ['USER_NO', 'USER_NM']
-    })
-        .then(results => {
-            users = results;
-        })
-        .catch(e => {
-            console.log(e)
-        })
-
-    res.json(users)
-
+    res.json(await SRCMJModifyDataService(body))
 })
 
 adminRestRouter.get('/pen-major-select', async (req, res) => {
