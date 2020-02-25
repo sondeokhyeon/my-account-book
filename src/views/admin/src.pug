@@ -6,7 +6,6 @@ block content
                 button.src__add(type=button id="modal-btn") 추가하기
             div.source-body#main__body
                 div#src-tree 
-                div#src-console
                 //- each src, index in srcs 
                 //- //- - console.log(index, src)
                 //- div
@@ -48,15 +47,15 @@ block content
         <label class="body-label">초기 금액
             <input type="text" required="required" name="money" value='{{info.SRC_MONEY}}' id="src_money"/>
         </label>
-        <input type="hidden"  name="srcNo" value="{{info.SRC_NO}}" readonly>
+        <input type="hidden"  name="srcNo" readonly="readonly" value="{{info.SRC_NO}}" readonly>
 
     script(id="modal-minor-add__partial" type="text/x-handlebars-template").
         <label class="body-label">별칭<br>
             (ex 빨간카드, 파란카드)
-            <input type="text" required="required" name="name" value='{{SRC_NAME}}' placeholder="중복금지!" id="src_name"/>
+            <input type="text" required="required" name="name" value='{{data.SRC_NAME}}' placeholder="중복금지!" id="src_name"/>
         </label>
-        <label class="body-label">상위<br>
-            <input type="text" readonly="readonly" name="cname" value='{{SRC_CNAME}}' id="src_cname"/>
+        <label class="body-label" id="cname-container">상위<br>
+            <input type="text" readonly="readonly" name="cname" value='{{data.SRC_CNAME}}' id="src_cname"/>
         </label>
         <label class="body-label">명의
             <select name="user_no" required="required" id="user_no">
@@ -70,7 +69,8 @@ block content
                 <input type="radio" required="required" name="is_credit" value="r" id="credit_two"/>신용카드
             </label>
         </label>    
-                <input type="hidden" required="required" readonly="readonly" name="mjcg" value="a"/>
+        <input type="hidden" required="required" readonly="readonly" name="mjcg" value="a"/>
+        <input type="hidden"  name="srcNo" readonly="readonly" value="{{data.SRC_NO}}" readonly>
 
     script(id="src-modal-template" type="text/x-handlebars-template").
         <div class="soruce-add__modal" id="source-modals">
@@ -92,20 +92,3 @@ block content
                 <div class="modal-footer" id="modal-footer"></div>
             </div>
         </div>
-
-    script(id="src-main__body" type="text/x-handlebars-template").
-        {{#each this}}
-            <div>
-                <span>{{SRC_NAME}}</span>
-                <span>{{SRC_BANK}}</span>
-                <span>{{cgNameChk SRC_MJCG}}</span>
-                <span>{{SRC_MONEY}}</span>
-                <span>{{[SDT_USER.USER_NM]}}</span>
-                <span>{{creditChk IS_CREDIT}}</span>
-                <span>{{COMMNET}}</span>
-                <button type="button" class="data-modify" data-no={{SRC_NO}}> 수정하기 </button>
-                <button type="button" class="data-delete" data-no={{SRC_NO}}> 삭제하기 </button>
-                {{{cgBtnChk this}}}
-            </div>
-        {{/each}}
-

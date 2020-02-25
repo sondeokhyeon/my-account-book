@@ -12,7 +12,26 @@
         margin: 0 auto;
     }
     .source-body {
-        display:flex;
+        .vtree {
+            .vtree-leaf {
+                .vtree-leaf-label {
+                    display:flex;
+                    cursor: auto;
+                    background-color: inherit;
+                    outline: 0px;
+                    // width:350px;
+                    justify-content: space-between;
+                    div {
+                        margin-left:50px;
+
+                    }
+                }
+                .vtree-leaf-label:hover {
+                    background-color: inherit;
+                    outline: 0px
+                }
+            }
+        }
     }
     .soruce-add__modal {
         display:none;

@@ -1,3 +1,4 @@
+import axios from "axios";
 
 export const getId = (id) => {
     return document.getElementById(id);
@@ -26,3 +27,14 @@ export const formSerialize = (form) => {
     }
     return s.join('&').replace(/%20/g, '+');
 };
+
+export const axiosHandler = async (url, method, data) => {
+    let result;
+    await axios[method](url, data)
+        .then((res) => {
+            result = res;
+        }).catch(err => {
+            console.log(err)
+        })
+    return result;
+}

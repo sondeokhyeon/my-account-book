@@ -89,9 +89,6 @@ block content
                     <input type="time" id="report_time" autocomplete="off" >
                 <input type="hidden" name="datetime" id="report-datetime" value="">
             </div>
-            <div> 사용처
-                <select id="source-handler" name="src"></select>
-            </div>
             <div> 대분류
                 <select id="spen-first-handler" name="major">
                     <option selected disabled>선택하시오</option>
@@ -100,7 +97,7 @@ block content
                     <option value="이체">이체</option>
                 </select>
             </div>
-            <div> 소분류
+            <div id="spen-second-container" style="display:none;"> 소분류
                 <select id="spen-second-handler" name="minor">
                     <option selected disabled value>분류</option>
                 </select>
@@ -109,6 +106,9 @@ block content
                 <select id="spen-third-handler" name="sminor">
                     <option selected disabled value>분류</option>
                 </select>
+            </div>
+            <div id="spen-source-container" style="display:none;"> 사용처
+                <select id="source-handler" name="src"></select>
             </div>
             <div> 상세내용
                 <input type="text" name="contents" id="contents" value >
@@ -130,9 +130,6 @@ block content
             <div id="spen-time-container"> 
                
             </div>
-            <div> 사용처
-                <select id="source-handler" name="src"></select>
-            </div>
             <div> 대분류
                 <select id="spen-first-handler" name="major">
                     <option selected disabled>선택하시오</option>
@@ -141,10 +138,18 @@ block content
                     <option value="이체">이체</option>
                 </select>
             </div>
-            <div> 소분류
+            <div id="spen-second-container" style="display:none;"> 소분류
                 <select id="spen-second-handler" name="minor">
                     <option selected disabled value>분류</option>
                 </select>
+            </div>
+            <div id="spen-third-container" style="display:none;"> 소분류 
+                <select id="spen-third-handler" name="sminor">
+                    <option selected disabled value>분류</option>
+                </select>
+            </div>
+            <div id="spen-source-container" style="display:none;"> 사용처
+                <select id="source-handler" name="src"></select>
             </div>
             <div id="spen-third-container" style="display:none;"> 소분류 
                 <select id="spen-third-handler" name="sminor">

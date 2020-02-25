@@ -1,36 +1,39 @@
 
 import express from 'express';
 import { db, sequelize } from '../../cmm/db'
-import {
-    SRCFindAllService,
-    SRCFindAllNoNmService,
-    SRCFindOneService,
-    SRCMJInsertService,
-    SRCMJModifyDataService,
-} from './Service'
+import * as adminService from './Service'
 const adminRestRouter = express.Router();
 
 adminRestRouter.get('/src-getdata', async (req, res) => {
-    res.json(await SRCFindAllService());
+    res.json(await adminService.SRCFindAllService());
 })
 
 adminRestRouter.get('/src-add', async (req, res) => {
-    res.json(await SRCFindAllNoNmService())
+    res.json(await adminService.SRCFindAllNoNmService())
 })
 
 adminRestRouter.post('/src-add', async (req, res) => {
     const { body } = req;
-    res.json(await SRCMJInsertService(body))
+    res.json(await adminService.SRCMJInsertService(body))
+})
+
+adminRestRouter.get('/src-get-account', async (req, res) => {
+    res.json(await adminService.SRCAccountFindService())
 })
 
 adminRestRouter.get('/src-modify', async (req, res) => {
     const { query: { srcNo } } = req;
-    res.json(await SRCFindOneService(srcNo))
+    res.json(await adminService.SRCFindOneService(srcNo))
 })
 
 adminRestRouter.post('/src-modify', async (req, res) => {
     const { body } = req;
-    res.json(await SRCMJModifyDataService(body))
+    res.json(await adminService.SRCMJModifyDataService(body))
+})
+
+adminRestRouter.delete('/:id/src-del', async (req, res) => {
+    const { params: { id } } = req;
+    res.json(await adminService.SRCDeleteDataService(id));
 })
 
 adminRestRouter.get('/pen-major-select', async (req, res) => {

@@ -152,15 +152,12 @@ const reportSummary = (month, year = '') => {
     getId('month-spend__title').innerText = `${month}월 지출액 `
 
     axios.get('/rf/data-summary', {
-        params: {
-            date: year + '-' + month
-        }
+        params: { date: year + '-' + month }
+    }).then(result => {
+        const { income, spend } = result.data
+        getId('month-income__content').innerText = `${typeof (income) === "number" ? commaSetup(income) : 0}원`
+        getId('month-spend__content').innerText = `${typeof (spend) === "number" ? commaSetup(spend) : 0}원`
     })
-        .then(result => {
-            const { income, spend } = result.data
-            getId('month-income__content').innerText = `${typeof (income) === "number" ? commaSetup(income) : 0}원`
-            getId('month-spend__content').innerText = `${typeof (spend) === "number" ? commaSetup(spend) : 0}원`
-        })
 }
 
 const monthHandler = () => {

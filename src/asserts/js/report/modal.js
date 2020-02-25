@@ -111,11 +111,9 @@ export const ModalHandler = {
     },
     imageUploadHadnler: () => {
         getId('upload-photo').onchange = (e) => {
-            console.log('123')
             const image = e.target.files[0];
             const fileType = image.type;
-            loadImage(
-                image,
+            loadImage(image,
                 img => {
                     img.toBlob(blob => {
                         const createFile = new File([blob], image.name)
@@ -123,12 +121,10 @@ export const ModalHandler = {
                         formData.append('photo', createFile)
                         formClosure.setForm(formData);
                     }, fileType)
-                },
-                {
-                    maxWidth: 1024,
-                    orientation: true
-                }
-            )
+                }, {
+                maxWidth: 1024,
+                orientation: true
+            })
         }
     },
     submitVaildate: () => {
@@ -174,7 +170,6 @@ export const ModalHandler = {
                             }
                         })
                 }
-
             }
             return false;
         })
@@ -193,7 +188,9 @@ export const ModalHandler = {
 
     secondOptionHandler: async (first, second) => {
         second.innerHTML = '';
-        await axios.get(origin + '/rf/spend-first-handler', {
+        getId('spen-second-container').style.display = 'flex'
+        getId('spen-source-container').style.display = 'flex'
+        await axios.get('/rf/spend-first-handler', {
             params: {
                 sort: first.value
             }
@@ -208,7 +205,6 @@ export const ModalHandler = {
             })
         }) //then
     }, // secondOptionHandler
-
     thirdOptionHandler: async (value, third) => {
         await axios.get(origin + '/rf/spend-sub-handler', {
             params: {

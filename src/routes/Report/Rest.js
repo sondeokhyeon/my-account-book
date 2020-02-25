@@ -24,7 +24,7 @@ ReportRestRouter.get('/datas', restLoginChk, async (req, res) => {
             model: db.DT_SRC,
             attributes: [
                 'SRC_NAME',
-                'SRC_CATEGORY',
+                'SRC_MJCG',
                 'IS_CREDIT',
                 'SRC_MONEY',
                 'SRC_BANK'
@@ -218,7 +218,7 @@ ReportRestRouter.get('/:id/get', async (req, res) => {
             model: db.DT_SRC,
             attributes: [
                 'SRC_NAME',
-                'SRC_CATEGORY',
+                'SRC_MJCG',
                 'IS_CREDIT',
                 'SRC_MONEY',
                 'SRC_BANK'

@@ -19,12 +19,12 @@ const closure = function () {
 let formClosure = new closure();
 
 const imageUploadHadnler = () => {
-    getId('upload-photo').onchange = (e) => {
+    getId('upload-photo').onchange = async (e) => {
         const image = e.target.files[0];
         const fileType = image.type;
-        loadImage(
+        await loadImage(
             image,
-            img => {
+            async img => {
                 img.toBlob(blob => {
                     const createFile = new File([blob], image.name)
                     var formData = new FormData(getId('report-modal__form'));
@@ -72,8 +72,7 @@ const dataSetup = (res) => {
     getId('dno').value = DT_NO
     if (res['DT_FILEs.FILE_NO']) {
         getId('formPhoto-container').innerHTML = `<a href="/${res['DT_FILEs.FILE_PATH']}">${res['DT_FILEs.FILE_ORINM']}</a>
-        <span id="photo-deletor-${res['DT_FILEs.FILE_NO']}" data-id="${res['DT_FILEs.FILE_NO']}">삭제</span>
-        `;
+        <span id="photo-deletor-${res['DT_FILEs.FILE_NO']}" data-id="${res['DT_FILEs.FILE_NO']}">삭제</span>`;
         getId(`photo-deletor-${res['DT_FILEs.FILE_NO']}`).onclick = (() => {
             if (confirm('사진을 삭제하시겠소?') === true) {
                 axios.delete(`/rf/${res['DT_FILEs.FILE_NO']}/photodel`)
